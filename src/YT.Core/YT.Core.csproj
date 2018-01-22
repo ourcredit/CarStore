@@ -134,7 +134,12 @@
     <Compile Include="Managers\Roles\RoleStore.cs" />
     <Compile Include="Managers\Users\UserManager.cs" />
     <Compile Include="Managers\Users\UserStore.cs" />
+    <Compile Include="Models\Areas.cs" />
     <Compile Include="Models\BaseEnum.cs" />
+    <Compile Include="Models\Car.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\StoreOrder.cs" />
+    <Compile Include="Models\WareHouse.cs" />
     <Compile Include="MultiTenancy\TenantManager.cs" />
     <Compile Include="Organizations\Organization.cs" />
     <Compile Include="YtConsts.cs" />

@@ -13,6 +13,18 @@ namespace YT.Models
     {
 
     }
-
-  
+    /// <summary>
+    /// 附件类型
+    /// </summary>
+    public enum FileType
+    {
+        a = 1, b = 2, c = 3, d = 4
+    }
+    /// <summary>
+    /// 订单状态
+    /// </summary>
+    public enum OrderState
+    {
+        a=1,b=2,c=3,d=4
+    }
 }

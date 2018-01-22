@@ -29,6 +29,7 @@ namespace YT.Managers.Users
         /// 头像路径id
         /// </summary>
         public Guid? ProfilePictureId { get; set; }
+
         #region 隐藏无用字段
         /// <summary>
         /// 隐藏昵称显示

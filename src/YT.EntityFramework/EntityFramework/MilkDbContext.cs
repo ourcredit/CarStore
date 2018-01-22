@@ -25,9 +25,10 @@ namespace YT.EntityFramework
     [DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
     public class MilkDbContext : AbpZeroDbContext<Tenant, Role, User>
     {
-       /// <summary>
-       /// 对象存储
-       /// </summary>
+        #region 系统对象
+        /// <summary>
+        /// 对象存储
+        /// </summary>
         public virtual IDbSet<BinaryObject> BinaryObjects { get; set; }
         /// <summary>
         /// 菜单配置
@@ -41,6 +42,57 @@ namespace YT.EntityFramework
         /// 组织机构
         /// </summary>
         public new virtual IDbSet<Organization> OrganizationUnits { get; set; }
+        #endregion
+        #region 业务对象
+        /// <summary>
+        /// 车辆
+        /// </summary>
+        public virtual  IDbSet<Car> Cars { get; set; }
+        /// <summary>
+        /// 车辆附件
+        /// </summary>
+        public  virtual  IDbSet<CarProfile> CarProfiles { get; set; }
+        /// <summary>
+        /// 车辆提现
+        /// </summary>
+        public  virtual  IDbSet<CarGeneration> CarGenerations { get; set; }
+        /// <summary>
+        /// 进货订单
+        /// </summary>
+        public  virtual  IDbSet<CarOrder> CarOrders { get; set; }
+        /// <summary>
+        /// 区域
+        /// </summary>
+        public virtual  IDbSet<Area> Areas { get; set; }
+        /// <summary>
+        /// 区域价格
+        /// </summary>
+        public  virtual  IDbSet<AreaPrice> AreaPrices { get; set; }
+        /// <summary>
+        /// 仓库
+        /// </summary>
+        public  virtual  IDbSet<WareHouse> WareHouses { get; set; }
+        /// <summary>
+        /// 商品
+        /// </summary>
+        public  virtual  IDbSet<Product> Products { get; set; }
+        /// <summary>
+        /// 订单下商品
+        /// </summary>
+        public  virtual  IDbSet<OrderProduct> OrderProducts { get; set; }
+        /// <summary>
+        /// 订单集合
+        /// </summary>
+        public  virtual  IDbSet<OrderList> OrderLists { get; set; }
+        /// <summary>
+        /// 消费订单
+        /// </summary>
+        public  virtual  IDbSet<StoreOrder> StoreOrders { get; set; }
+        /// <summary>
+        /// 仓库
+        /// </summary>
+        public  virtual  IDbSet<UserWareHouse> UserWareHouses { get; set; }
+        #endregion
         public MilkDbContext()
             : base("Default")
         {
