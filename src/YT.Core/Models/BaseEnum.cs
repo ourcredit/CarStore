@@ -14,10 +14,5 @@ namespace YT.Models
 
     }
 
-    public enum ProfileType
-    {
-      
-        业务资料=1,
-        特有许可证=2
-    }
+  
 }

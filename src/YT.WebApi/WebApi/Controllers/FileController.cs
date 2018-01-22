@@ -24,9 +24,6 @@ namespace YT.WebApi.Controllers
     public class FileController : YtApiControllerBase
     {
         private readonly IAppFolders _appFolders;
-        private readonly IRepository<Product> _productRepository;
-        private readonly IRepository<FormProfile> _profileRepository;
-        private readonly IRepository<Order> _ordeRepository;
         public static string Host => ConfigurationManager.AppSettings.Get("WebSiteRootAddress");
         private readonly IBinaryObjectManager _binaryObjectManager;
 
@@ -35,19 +32,10 @@ namespace YT.WebApi.Controllers
      /// </summary>
      /// <param name="appFolders"></param>
      /// <param name="binaryObjectManager"></param>
-     /// <param name="ordeRepository"></param>
-     /// <param name="productRepository"></param>
-     /// <param name="profileRepository"></param>
-        public FileController(IAppFolders appFolders, IBinaryObjectManager binaryObjectManager,
-            IRepository<Order> ordeRepository,
-            IRepository<Product> productRepository, 
-            IRepository<FormProfile> profileRepository)
+        public FileController(IAppFolders appFolders, IBinaryObjectManager binaryObjectManager)
         {
             _appFolders = appFolders;
             _binaryObjectManager = binaryObjectManager;
-            _ordeRepository = ordeRepository;
-            _productRepository = productRepository;
-            _profileRepository = profileRepository;
         }
 
         public AjaxResponse DownloadTempFile(FileDto file)
@@ -230,7 +218,6 @@ namespace YT.WebApi.Controllers
         [HttpGet]
         public async Task DeleteFile(Guid guid)
         {
-            await _profileRepository.DeleteAsync(c => c.ProfileId == guid);
             var file = await _binaryObjectManager.GetOrNullAsync(guid);
             if (file != null)
             {
@@ -246,45 +233,6 @@ namespace YT.WebApi.Controllers
 
         #endregion 上传文件
       
-        [HttpGet]
-        public async Task<HttpResponseMessage> DownLoadFile(int orderId)
-        {
-            var order = await _ordeRepository.FirstOrDefaultAsync(orderId);
-            if (order == null) throw new UserFriendlyException("订单不存在");
-            var form = order.Form;
-            var product = await _productRepository.FirstOrDefaultAsync(order.ProductId);
-            if (product == null) throw new UserFriendlyException("商品不存在");
-            StringBuilder sb = new StringBuilder();
-            sb.Append("公司名称,所属行业,品牌名称,法人代表,法人联系方式,品牌负责人,品牌负责人联系方式,联系地址,邮编,订单类型\r\n");
-            sb.Append(form.CompanyName+",");
-            sb.Append(form.Industry + ",");
-            sb.Append(form.Brands + ",");
-            sb.Append(form.LegalPerson + ",");
-            sb.Append(form.LegalMobile + ",");
-            sb.Append(form.BrandsPerson + ",");
-            sb.Append(form.BrandsMobile + ",");
-            sb.Append(form.Address + ",");
-            sb.Append(form.PostNum + ",");
-            sb.Append(product.LevelOne?.Name + product.LevelTwo?.Name);
-            try
-            {
-
-                string file = sb.ToString();
-
-                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-                result.Content = new StringContent(file,Encoding.Default);
-                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                result.Content.Headers.ContentDisposition.FileName = "数据导出.csv";
-
-                return result;
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError);
-            }
-
-        }
 
         [HttpGet]
         [DisableAuditing]

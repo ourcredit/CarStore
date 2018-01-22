@@ -38,29 +38,9 @@ namespace YT.EntityFramework
         /// </summary>
         public virtual IDbSet<YtPermission> YtPermissions { get; set; }
         /// <summary>
-        /// 资质附件
+        /// 组织机构
         /// </summary>
-        public  virtual  IDbSet<FormProfile> FormProfiles { get; set; }
-        /// <summary>
-        /// 公告管理
-        /// </summary>
-        public  virtual  IDbSet<Adsence> Adsences { get; set; }
-        
         public new virtual IDbSet<Organization> OrganizationUnits { get; set; }
-
-        public virtual IDbSet<Customer> Customers { get; set; }
-        public virtual IDbSet<Product> Products { get; set; }
-        public virtual IDbSet<Order> Orders { get; set; }
-        public virtual IDbSet<ChargeRecord> ChargeRecords { get; set; }
-        public virtual IDbSet<ApplyCharge> ApplyCharges { get; set; }
-        public virtual IDbSet<Category> Categories { get; set; }
-        public virtual IDbSet<CustomerForm> CustomerForms { get; set; }
-
-        public virtual  IDbSet<CustomerCost> CustomerCosts { get; set; }
-        /// <summary>
-        /// 客户定价
-        /// </summary>
-        public  virtual  IDbSet<CustomerPreferencePrice> CustomerPreferencePrices { get; set; }
         public MilkDbContext()
             : base("Default")
         {
