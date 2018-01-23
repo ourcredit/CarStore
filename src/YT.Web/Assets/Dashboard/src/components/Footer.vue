@@ -3,6 +3,6 @@
 </template>
 <script>
 export default {
-  name: 'footer'
-}
+  name: "afooter"
+};
 </script>

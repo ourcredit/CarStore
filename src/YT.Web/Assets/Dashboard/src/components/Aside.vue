@@ -52,7 +52,7 @@
 
 <script>
 export default {
-  name: "aside"
+  name: "asider"
 };
 </script>
 <style type="text/css">

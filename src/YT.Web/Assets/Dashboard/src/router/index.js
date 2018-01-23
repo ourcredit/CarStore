@@ -89,8 +89,7 @@ export const asyncRouterMap = [{
                 path: '/customers',
                 name: '客户管理',
                 icon: 'card',
-                component: r => require(['views/customer/index'], r),
-
+                component: r => require(['views/customer/index'], r)
             },
             {
                 path: '/customerpricing',

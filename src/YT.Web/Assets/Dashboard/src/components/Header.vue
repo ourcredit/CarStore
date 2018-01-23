@@ -63,7 +63,7 @@
 import navbar from "./Navbar";
 import { mapGetters, mapActions } from "vuex";
 export default {
-  name: "header",
+  name: "aheader",
   components: {
     navbar
   },
