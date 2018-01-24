@@ -1,5 +1,12 @@
 <template>
   <view class="container">
+    <view class="home_banner">
+      <navigator class="item">
+        <image class="home_banner_img" src="../images/banner.png"></image>
+      </navigator>
+    </view>
+    <view class="button-scan-entey">扫一扫进入车上商店</view>
+    <view class="labelOpenShop">我要开店</view>
     <!-- <swiper class="swiper" indicator-active-color="{{indicatorActiveColor}}" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" circular="true">
       <block wx:for="{{adList}}" wx:key="key">
         <swiper-item>
@@ -7,7 +14,7 @@
         </swiper-item>
       </block>
     </swiper> -->
-    <view class="pos">
+    <!-- <view class="pos">
       <view class="search_read_only">
         <navigator class="search_content" open-type="navigate" url="/pages/search">
           <i class="iconfont icon-search"></i>
@@ -18,7 +25,7 @@
           <view class="doc cfff">消息</view>
         </navigator>
       </view>
-    </view>
+    </view> -->
     <!-- <view class="nav_list">
       <navigator open-type="navigate" url="/pages/sign_in">
         <image src="../images/icon_nav_01_new.png" class="nav_icon"></image>
@@ -61,7 +68,7 @@ import BottomLoadMore from "../components/common/bottomLoadMore";
 import Placeholder from "../components/common/placeholder";
 export default class Home extends wepy.page {
   config = {
-    navigationBarTitleText: "首页"
+    navigationBarTitleText: "车上商店"
   };
   components = {
     discover: Discover,
@@ -190,6 +197,43 @@ export default class Home extends wepy.page {
 }
 </script>
 <style lang="less">
+.home_banner {
+    .home_banner_img {
+        width: 100%;
+        height: 447rpx;
+    }
+    .item {
+        background: #fff;
+        padding: 15rpx;
+        margin-bottom: 15rpx;
+    }
+}
+.button-scan-entey {
+  font-size: 28rpx;
+  height: 55rpx;
+  line-height: 55rpx;
+  text-align: center;
+  margin: 250rpx auto 50rpx;
+  width: 300rpx;
+  -moz-border-radius: 8rpx;
+  /* Firefox */
+  -webkit-border-radius: 8rpx;
+  /* Safari 和 Chrome */
+  border-radius: 8rpx;
+  /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+  color: #8bc34a;
+  border: 1px solid #8bc34a;
+}
+.labelOpenShop{
+  width: 170rpx;
+  margin: 25rpx auto;
+  color: #000;
+  text-align: center;
+  padding-bottom:3px;
+  border-bottom:1px solid #000;
+}
+
+
 .swiper {
   height: 348rpx;
 }
