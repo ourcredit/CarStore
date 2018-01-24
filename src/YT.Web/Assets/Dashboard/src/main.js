@@ -52,7 +52,20 @@ const converToTreedata = (data, parentId, pidField, grants) => {
     });
     return list;
 };
+const genderTree = (data, parentId, pidField) => {
+    const list = [];
+    data.forEach(item => {
+        if (item[pidField] === parentId) {
+            item.children = genderTree(data, item.id, pidField);
+            item.title = item.areaName;
+            item.expand = true;
+            list.push(item);
+        }
+    });
+    return list;
+};
 Vue.prototype.$converToTreedata = converToTreedata;
+Vue.prototype.$genderTree = genderTree;
 Vue.config.productionTip = false;
 router.beforeEach((to, from, next) => {
     const token = localStorage.getItem('Milk-Token');

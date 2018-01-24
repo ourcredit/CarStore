@@ -21,21 +21,17 @@
       </milk-table>
     </Row>
     <!-- 添加和编辑窗口 -->
-    <Modal :width="800" :transfer="false" v-model="isshow" title="仓库编辑" :mask-closable="false"
+    <Modal :loading="true" :width="800" :transfer="false" v-model="isshow" title="仓库编辑" :mask-closable="false"
      @on-ok="save" @on-cancel="cancel">
       <Form :model="model" :label-width="80">
         <FormItem label="仓库名称">
-            <Input v-model="model.houseName" placeholder="仓库名称"></Input>
+            <Input v-model="model.wareName" placeholder="仓库名称"></Input>
         </FormItem>
           <FormItem label="仓库编号">
-            <Input v-model="model.houseNum" placeholder="仓库编号"></Input>
+            <Input v-model="model.wareNum" placeholder="仓库编号"></Input>
         </FormItem>
         <FormItem label="分类">
-            <Select v-model="model.areaId">
-                <Option value="beijing">New York</Option>
-                <Option value="shanghai">London</Option>
-                <Option value="shenzhen">Sydney</Option>
-            </Select>
+           <Tree ref="tree" :data="areas" @on-select-change="select"></Tree>
         </FormItem>
         <FormItem label="描述">
             <Input v-model="model.description" type="textarea"
@@ -58,9 +54,10 @@ import {
   deleteHouses,
   exportHouse
 } from "api/house";
+import { getAllAreas } from "api/area";
 import axios from "axios";
 export default {
-  name: "account",
+  name: "house",
   data() {
     return {
       cols: [
@@ -78,7 +75,10 @@ export default {
         },
         {
           title: "创建时间",
-          key: "creationTime"
+          key: "creationTime",
+          render: (h, params) => {
+            return this.$fmtTime(params.row.creationTime);
+          }
         },
         {
           title: "操作",
@@ -138,7 +138,9 @@ export default {
         name: "",
         num: "",
         area: ""
-      }
+      },
+      areas: [],
+      selectModal: null
     };
   },
   components: {},
@@ -147,16 +149,31 @@ export default {
   methods: {
     save() {
       var table = this.$refs.list;
+      if (this.selectModal == null) {
+        console.log(this.$Message);
+        this.$Message.info("请选择区域节点");
+        return;
+      }
+      this.model.areaId = this.selectModal.id;
       modifyHouse({
-        adsenceEditDto: this.model
+        wareHouseEditDto: this.model
       }).then(c => {
         if (c.data.success) {
+          this.isshow = false;
           table.initData();
         }
       });
     },
+    select(arr) {
+      this.selectModal = arr[0];
+    },
     add() {
       this.getInfo(null);
+      getAllAreas().then(r => {
+        if (r.data.success) {
+          this.areas = this.$genderTree(r.data.result, null, "parentId");
+        }
+      });
       this.isshow = true;
     },
     public(row) {
@@ -218,11 +235,11 @@ export default {
         });
     },
     getInfo(id) {
-      getHouse({
+      getHouseEdit({
         id: id
       }).then(r => {
         if (r.data.success && r.data.result) {
-          this.model = r.data.result.adsence;
+          this.model = r.data.result.wareHouse;
         }
       });
     }

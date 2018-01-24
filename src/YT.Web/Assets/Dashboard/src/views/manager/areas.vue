@@ -1,103 +1,54 @@
 <template>
-    <Tree :data="data5" :render="renderContent"></Tree>
+<Row>
+  <Col span="8">
+    <Tree :data="list" :render="renderContent"></Tree>
+  
+  </Col>
+   <!-- 添加和编辑窗口 -->
+    <Modal :width="400" :transfer="false" v-model="isshow" title="添加区域" :mask-closable="false"
+     @on-ok="save"
+     @on-cancel="cancel">
+      <Form :model="model" :label-width="80">
+        <FormItem label="上级名称">
+          <Input  v-model="model.parentName" placeholder="上级名称"></Input>
+        </FormItem>
+        <FormItem label="区域名">
+          <Input v-model="model.areaName" placeholder="区域名"></Input>
+        </FormItem>
+      </Form>
+    </Modal>
+</Row>
+
 </template>
 <script>
+import {
+  getAllAreas,
+  getAreaEdit,
+  getArea,
+  modifyArea,
+  deleteArea
+} from "api/area";
 export default {
   data() {
     return {
-      data5: [
-        {
-          title: "parent 1",
-          expand: true,
-          render: (h, { root, node, data }) => {
-            return h(
-              "span",
-              {
-                style: {
-                  display: "inline-block",
-                  width: "100%"
-                }
-              },
-              [
-                h("span", [
-                  h("Icon", {
-                    props: {
-                      type: "ios-folder-outline"
-                    },
-                    style: {
-                      marginRight: "8px"
-                    }
-                  }),
-                  h("span", data.title)
-                ]),
-                h(
-                  "span",
-                  {
-                    style: {
-                      display: "inline-block",
-                      float: "right",
-                      marginRight: "32px"
-                    }
-                  },
-                  [
-                    h("Button", {
-                      props: Object.assign({}, this.buttonProps, {
-                        icon: "ios-plus-empty",
-                        type: "primary"
-                      }),
-                      style: {
-                        width: "52px"
-                      },
-                      on: {
-                        click: () => {
-                          this.append(data);
-                        }
-                      }
-                    })
-                  ]
-                )
-              ]
-            );
-          },
-          children: [
-            {
-              title: "child 1-1",
-              expand: true,
-              children: [
-                {
-                  title: "leaf 1-1-1",
-                  expand: true
-                },
-                {
-                  title: "leaf 1-1-2",
-                  expand: true
-                }
-              ]
-            },
-            {
-              title: "child 1-2",
-              expand: true,
-              children: [
-                {
-                  title: "leaf 1-2-1",
-                  expand: true
-                },
-                {
-                  title: "leaf 1-2-1",
-                  expand: true
-                }
-              ]
-            }
-          ]
-        }
-      ],
+      list: [],
+      isshow: false,
+      model: { parentName: "" },
       buttonProps: {
         type: "ghost",
         size: "small"
       }
     };
   },
+  created() {
+    this.init();
+  },
   methods: {
+    init() {
+      getAllAreas().then(r => {
+        this.list = this.$genderTree(r.data.result, null, "parentId");
+      });
+    },
     renderContent(h, { root, node, data }) {
       return h(
         "span",
@@ -119,6 +70,7 @@ export default {
             }),
             h("span", data.title)
           ]),
+
           h(
             "span",
             {
@@ -138,7 +90,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.append(data);
+                    this.create(data);
                   }
                 }
               }),
@@ -148,7 +100,7 @@ export default {
                 }),
                 on: {
                   click: () => {
-                    this.remove(root, node, data);
+                    this.delete(root, node, data);
                   }
                 }
               })
@@ -157,19 +109,39 @@ export default {
         ]
       );
     },
-    append(data) {
-      const children = data.children || [];
-      children.push({
-        title: "appended node",
-        expand: true
+    create(data) {
+      this.isshow = true;
+      this.model.parentName = data.title;
+      this.model.parentId = data.id;
+    },
+    save() {
+      modifyArea({ areaEditDto: this.model }).then(r => {
+        if (r.data.success) {
+          this.init();
+          this.isshow = false;
+          this.model = {};
+        }
       });
-      this.$set(data, "children", children);
+    },
+    cancel() {
+      this.isshow = false;
+      this.model = {};
     },
     remove(root, node, data) {
-      const parentKey = root.find(el => el === node).parent;
-      const parent = root.find(el => el.nodeKey === parentKey).node;
-      const index = parent.children.indexOf(data);
-      parent.children.splice(index, 1);
+      this.$Modal.confirm({
+        title: "删除提示",
+        content: "确定要删除么?",
+        onOk: () => {
+          const parms = {
+            id: data.id
+          };
+          deleteArea(parms).then(c => {
+            if (c.data.success) {
+              this.init();
+            }
+          });
+        }
+      });
     }
   }
 };

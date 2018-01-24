@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using YT.Dashboard.Areas.Dtos;
@@ -27,7 +28,11 @@ namespace YT.Dashboard.Areas
         /// </summary>
 		Task<AreaListDto> GetAreaByIdAsync(EntityDto<int> input);
 
-
+        /// <summary>
+        /// 获取所有区域对象
+        /// </summary>
+        /// <returns></returns>
+        Task<List<AreaListDto>> GetAllAreas();
 
         /// <summary>
         /// 新增或更改区域管理

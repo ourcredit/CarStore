@@ -21,29 +21,26 @@
       </milk-table>
     </Row>
     <!-- 添加和编辑窗口 -->
-    <Modal :width="800" :transfer="false" v-model="isshow" title="仓库编辑" :mask-closable="false"
-     @on-ok="save" @on-cancel="cancel">
+    <Modal :width="800" :transfer="false" v-model="isshow" title="仓库编辑" :mask-closable="false" @on-ok="save" @on-cancel="cancel">
       <Form :model="model" :label-width="80">
         <FormItem label="仓库名称">
-            <Input v-model="model.houseName" placeholder="仓库名称"></Input>
+          <Input v-model="model.houseName" placeholder="仓库名称"></Input>
         </FormItem>
-          <FormItem label="仓库编号">
-            <Input v-model="model.houseNum" placeholder="仓库编号"></Input>
+        <FormItem label="仓库编号">
+          <Input v-model="model.houseNum" placeholder="仓库编号"></Input>
         </FormItem>
         <FormItem label="分类">
-            <Select v-model="model.areaId">
-                <Option value="beijing">New York</Option>
-                <Option value="shanghai">London</Option>
-                <Option value="shenzhen">Sydney</Option>
-            </Select>
+          <Select v-model="model.areaId">
+            <Option value="beijing">New York</Option>
+            <Option value="shanghai">London</Option>
+            <Option value="shenzhen">Sydney</Option>
+          </Select>
         </FormItem>
         <FormItem label="描述">
-            <Input v-model="model.description" type="textarea"
-             :autosize="{minRows: 2,maxRows: 5}"
-              placeholder="描述"></Input>
+          <Input v-model="model.description" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="描述"></Input>
         </FormItem>
-     
-    </Form>
+
+      </Form>
     </Modal>
   </div>
 </template>

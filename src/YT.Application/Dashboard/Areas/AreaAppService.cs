@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic;
@@ -19,21 +20,15 @@ namespace YT.Dashboard.Areas
     /// </summary>
     [AbpAuthorize]
 
-
     public class AreaAppService : YtAppServiceBase, IAreaAppService
     {
         private readonly IRepository<Area, int> _areaRepository;
-
-
         /// <summary>
         /// 构造方法
         /// </summary>
-        public AreaAppService(IRepository<Area, int> areaRepository
-
-  )
+        public AreaAppService(IRepository<Area, int> areaRepository)
         {
             _areaRepository = areaRepository;
-
         }
 
 
@@ -101,8 +96,15 @@ namespace YT.Dashboard.Areas
 
             return entity.MapTo<AreaListDto>();
         }
-
-
+        /// <summary>
+        /// 获取所有区域对象
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<AreaListDto>> GetAllAreas()
+        {
+            var list = await AreaRepositoryAsNoTrack.ToListAsync();
+            return list.MapTo<List<AreaListDto>>();
+        }
 
 
 
@@ -130,7 +132,15 @@ namespace YT.Dashboard.Areas
         {
 
             var entity = input.MapTo<Area>();
-
+            if (input.ParentId.HasValue)
+            {
+                var parennt = await _areaRepository.FirstOrDefaultAsync(input.ParentId.Value);
+                if (parennt != null)
+                {
+                    entity.LevelCode = $"{parennt.LevelCode}.{Guid.NewGuid().ToString("D").Split('-').Last()}" ;
+                }
+            }
+            entity.LevelCode = $"{Guid.NewGuid().ToString("D").Split('-').Last()}";
             entity = await _areaRepository.InsertAsync(entity);
             return entity.MapTo<AreaEditDto>();
         }

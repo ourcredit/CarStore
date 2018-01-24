@@ -60,7 +60,7 @@ import {
 } from "api/house";
 import axios from "axios";
 export default {
-  name: "account",
+  name: "price",
   data() {
     return {
       cols: [

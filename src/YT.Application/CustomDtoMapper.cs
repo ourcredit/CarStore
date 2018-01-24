@@ -1,7 +1,10 @@
 using System.Configuration;
 using AutoMapper;
 using YT.Authorization.Users.Dto;
+using YT.Dashboard.Areas.Dtos;
+using YT.Dashboard.WareHouses.Dtos;
 using YT.Managers.Users;
+using YT.Models;
 
 namespace YT
 {
@@ -35,7 +38,10 @@ namespace YT
                 .ReverseMap()
                 .ForMember(user => user.Password, options => options.Ignore());
 
-         
+            mapper.CreateMap<Area, AreaListDto>()
+                .ForMember(c => c.ParentName, o => o.MapFrom(w => w.Parent.AreaName));
+            mapper.CreateMap<WareHouse, WareHouseListDto>()
+                .ForMember(c => c.AreaName, o => o.MapFrom(w => w.Area.AreaName));
         }
     }
 }

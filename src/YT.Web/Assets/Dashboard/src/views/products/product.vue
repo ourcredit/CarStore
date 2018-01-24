@@ -4,14 +4,11 @@
       <milk-table ref="list" :layout="[18,2,2]" :columns="cols" :search-api="searchApi" :params="params">
         <template slot="search">
           <Form ref="params" :model="params" inline :label-width="60">
-            <FormItem label="仓库名称">
-              <Input v-model="params.name" placeholder="仓库名称"></Input>
+            <FormItem label="商品名">
+              <Input v-model="params.name" placeholder="商品名"></Input>
             </FormItem>
-            <FormItem label="仓库编号">
-              <Input v-model="params.num" placeholder="仓库编号"></Input>
-            </FormItem>
-            <FormItem label="区域名">
-              <Input v-model="params.area" placeholder="区域名"></Input>
+            <FormItem label="商品编号">
+              <Input v-model="params.num" placeholder="商品编号"></Input>
             </FormItem>
           </Form>
         </template>
@@ -21,28 +18,26 @@
       </milk-table>
     </Row>
     <!-- 添加和编辑窗口 -->
-    <Modal :width="800" :transfer="false" v-model="isshow" title="仓库编辑" :mask-closable="false"
+    <Modal :loading="true" :width="800" :transfer="false" v-model="isshow" title="商品编辑" :mask-closable="false"
      @on-ok="save" @on-cancel="cancel">
-      <Form :model="model" :label-width="80">
-        <FormItem label="仓库名称">
-            <Input v-model="model.houseName" placeholder="仓库名称"></Input>
+      <Form inline :model="model" :label-width="80">
+        <FormItem label="商品名">
+            <Input v-model="model.productName" placeholder="商品名"></Input>
         </FormItem>
-          <FormItem label="仓库编号">
-            <Input v-model="model.houseNum" placeholder="仓库编号"></Input>
+          <FormItem label="商品编号">
+            <Input v-model="model.productNum" placeholder="商品编号"></Input>
         </FormItem>
-        <FormItem label="分类">
-            <Select v-model="model.areaId">
-                <Option value="beijing">New York</Option>
-                <Option value="shanghai">London</Option>
-                <Option value="shenzhen">Sydney</Option>
-            </Select>
+         <FormItem label="默认价格">
+            <Input v-model="model.price" placeholder="默认价格"></Input>
         </FormItem>
-        <FormItem label="描述">
+         <FormItem label="成本价格">
+            <Input v-model="model.cost" placeholder="成本价格"></Input>
+        </FormItem>
+         <FormItem label="描述">
             <Input v-model="model.description" type="textarea"
              :autosize="{minRows: 2,maxRows: 5}"
               placeholder="描述"></Input>
         </FormItem>
-     
     </Form>
     </Modal>
   </div>
@@ -50,38 +45,39 @@
 
 <script>
 import {
-  getHouses,
-  getHouseEdit,
-  getHouse,
-  modifyHouse,
-  deleteHouse,
-  deleteHouses,
-  exportHouse
-} from "api/house";
+  getProducts,
+  getProductEdit,
+  getProduct,
+  modifyProduct,
+  deleteProduct,
+  deleteProducts,
+  exportProduct
+} from "api/product";
 import axios from "axios";
 export default {
-  name: "account",
+  name: "Product",
   data() {
     return {
       cols: [
         {
-          title: "商品名称",
-          key: "wareName"
+          title: "商品名",
+          key: "productName"
         },
         {
           title: "商品编号",
-          key: "wareNum"
+          key: "productNum"
         },
         {
           title: "商品描述",
-          key: "areaName"
+          key: "description"
         },
-
         {
           title: "创建时间",
-          key: "creationTime"
+          key: "creationTime",
+          render: (h, params) => {
+            return this.$fmtTime(params.row.creationTime);
+          }
         },
-
         {
           title: "操作",
           key: "action",
@@ -107,38 +103,38 @@ export default {
               "删除"
             );
             divs.push(del);
-            divs.push(
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "primary",
-                    size: "small"
-                  },
-                  style: {
-                    marginRight: "5px"
-                  },
-                  on: {
-                    click: () => {
-                      this.edit(params.row);
+            if (!params.row.isActive) {
+              divs.push(
+                h(
+                  "Button",
+                  {
+                    props: {
+                      type: "primary",
+                      size: "small"
+                    },
+                    style: {
+                      marginRight: "5px"
+                    },
+                    on: {
+                      click: () => {
+                        this.edit(params.row);
+                      }
                     }
-                  }
-                },
-                "编辑"
-              )
-            );
-
+                  },
+                  "编辑"
+                )
+              );
+            }
             return h("div", divs);
           }
         }
       ],
       model: {},
       isshow: false,
-      searchApi: getHouses,
+      searchApi: getProducts,
       params: {
         name: "",
-        num: "",
-        area: ""
+        num: ""
       }
     };
   },
@@ -148,10 +144,11 @@ export default {
   methods: {
     save() {
       var table = this.$refs.list;
-      modifyHouse({
-        adsenceEditDto: this.model
+      modifyProduct({
+        wareProductEditDto: this.model
       }).then(c => {
         if (c.data.success) {
+          this.isshow = false;
           table.initData();
         }
       });
@@ -159,17 +156,6 @@ export default {
     add() {
       this.getInfo(null);
       this.isshow = true;
-    },
-    public(row) {
-      publicAdsences;
-      var table = this.$refs.list;
-      publicAdsences({
-        id: row.id
-      }).then(c => {
-        if (c.data.success) {
-          table.initData();
-        }
-      });
     },
     edit(row) {
       this.getInfo(row.id);
@@ -189,7 +175,7 @@ export default {
           const parms = {
             id: model.id
           };
-          deleteHouse(parms).then(c => {
+          deleteProduct(parms).then(c => {
             if (c.data.success) {
               table.initData();
             }
@@ -197,33 +183,12 @@ export default {
         }
       });
     },
-    handleImageAdded(file, Editor, cursorLocation) {
-      const CLIENT_ID = "993793b1d8d3e2e";
-      var formData = new FormData();
-      formData.append("image", file);
-      axios({
-        url: "http://192.168.0.202:8888/api/file/imageupload",
-        method: "POST",
-        headers: {
-          Authorization: "Client-ID " + CLIENT_ID
-        },
-        data: formData
-      })
-        .then(result => {
-          result.data.result.forEach(element => {
-            Editor.insertEmbed(cursorLocation, "image", element.viewUrl);
-          });
-        })
-        .catch(err => {
-          this.$Message.error(err.response.data.error.message);
-        });
-    },
     getInfo(id) {
-      getHouse({
+      getProductEdit({
         id: id
       }).then(r => {
         if (r.data.success && r.data.result) {
-          this.model = r.data.result.adsence;
+          this.model = r.data.result.product;
         }
       });
     }

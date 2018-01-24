@@ -26,7 +26,7 @@ namespace YT.Dashboard.Areas.Dtos
         /// 上级对象
         /// </summary>
         [DisplayName("上级对象")]
-        public Area Parent { get; set; }
+        public string ParentName { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>
