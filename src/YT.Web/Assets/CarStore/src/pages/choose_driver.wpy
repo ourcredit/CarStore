@@ -1,0 +1,45 @@
+<template>
+  <view class="container">
+    <view class="choose_driver">
+      <view>你是出租车司机还是网约车司机？</view>
+      <view class="button_taxi_driver button_driver">出租车</view>
+      <view class="button_driver">网约车</view>
+    </view>
+  </view>
+</template>
+<script>
+import wepy from "wepy";
+export default class Home extends wepy.page {
+  config = {
+    navigationBarTitleText: "车上商店"
+  };
+  components = {
+  };
+  data = {
+    
+  };
+  
+  onLoad() {
+    
+  }
+  methods = {
+  };
+}
+</script>
+<style lang="less">
+.choose_driver{
+  padding-top: 100rpx;
+  text-align: center
+}
+.button_driver{
+  width: 350rpx;
+  height: 120rpx;
+  margin: 0 auto 40rpx;
+  line-height: 120rpx;
+  border: 1px solid #bbb;
+  border-radius: 3px;
+}
+.button_taxi_driver{
+  margin-top: 100rpx;
+}
+</style>
