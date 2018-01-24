@@ -5,6 +5,6 @@
 // }
 module.exports = {
     NODE_ENV: '"development"',
-    BASE_API: '"http://192.168.0.202:22222"',
-    APP_ORIGIN: '"http://192.168.0.202:22222"'
+    BASE_API: '"https://dingding.leftins.com"',
+    APP_ORIGIN: '"https://dingding.leftins.com"'
 }
