@@ -1,7 +1,7 @@
 <template>
+  <!-- 第一步 -->
   <view wx:if="{{currentTab==1}}" class="step1">
-
-    <view class="empty_cart" >
+    <view class="empty_cart">
       <image src="../../images/empty_cart.png" class="empty_cart_img"></image>
       <view class="empty_cart_text">申请协议</view>
       <view class="shop_btn">
@@ -10,9 +10,8 @@
         </view>
       </view>
     </view>
-
-
   </view>
+  <!-- 第二步 -->
   <view wx:if="{{currentTab==2}}" class="step2">
     <view>
       <text>你是出租车司机还是网约车司机</text>
@@ -32,20 +31,37 @@
       </view>
     </view>
   </view>
+  <!-- 第三步 -->
   <view wx:if="{{currentTab==3}}" class="step3">
-    第三步
+    这里是协议内容 xxx内容
+    <view class="btn get_store" @tap="register">成为店主</view>
+  </view>
+  <!-- 第四步 -->
+  <view wx:if="{{currentTab==4}}" class="step3">
+    绑定手机 手机
+    <input type="text" value="aaaaa" /> 验证码
+    <input type="text" value="aaaaa" />
+    <view class="btn get_store" @tap="bind">绑定</view>
+  </view>
+  <!-- 第五步 -->
+  <view wx:if="{{currentTab==5}}" class="step3">
+    个人信息提交 手机
+    <input type="text" value="aaaaa" /> 验证码
+    <input type="text" value="aaaaa" />
+    <view class="btn get_store" @tap="submit">提交审核</view>
+  </view>
+  <!-- 第六步 -->
+  <view wx:if="{{currentTab==6}}" class="step3">
+    <view wx:if="{{model.state==0}}" class="step3">
+        审核未通过
+        <view class="btn get_store" @tap="submit">重新提交</view>
+    </view>
+     <view wx:else class="step3">
+        审核通过
+        <view class="btn get_store" @tap="submit">取货</view>
+    </view>
   </view>
 </template>
-
-
-
-
-
-
-
-
-
-
 <script>
 import wepy from "wepy";
 import api from "../../api/api";
@@ -54,100 +70,51 @@ import { SYSTEM_INFO, SEL_CLASS_CODE } from "../../utils/constant";
 import tip from "../../utils/tip";
 
 export default class Classify extends wepy.page {
+  //页面配置
   config = {
     navigationBarTitleText: "分类"
   };
+  //组件
   components = {};
-
+  //数据
   data = {
     model: {
-      carType: 1
+      carType: 1,
+      state: 1
     },
     scrollTop: 100,
     windowHeight: 0,
     list: {},
-    currentTab: 1,
-    //一级分类数据
-    rootcateList: {},
-    //二级三级分类数据
-    childcateList: {}
+    currentTab: 1
   };
-
-  async getChildCate(rootCateCode) {
-    const json = await api.childGoodsCatetoryList({
-      query: {
-        rootCategoryCode: rootCateCode
-      }
-    });
-    if (json.data.code == 0) {
-      this.childcateList = json.data.list;
-    } else {
-      tip.error(json.data.msg);
-    }
-    this.$apply();
-  }
-
-  async getRootCateTopLevel() {
-    const json = await api.rootCtegoryList({
-      query: {}
-    });
-    if (json.data.code == 0) {
-      this.rootcateList = json.data.list;
-      if (this.rootcateList.length > 0) {
-        let selCode = wx.getStorageSync(SEL_CLASS_CODE);
-        var selRottCateCode = this.rootcateList[0].code;
-        if (selCode.length == 0) {
-          this.rootcateList[0].active = true;
-        } else {
-          for (var i = 0; i < this.rootcateList.length; i++) {
-            if (selCode == this.rootcateList[i].code) {
-              selRottCateCode = this.rootcateList[i].code;
-              this.rootcateList[i].active = true;
-            }
-          }
-        }
-
-        this.getChildCate(selRottCateCode);
-      }
-    } else {
-      tip.error(json.data.msg);
-    }
-    this.$apply();
-  }
-
+  //加载事件
   onLoad() {
     let that = this;
     let systemInfo = wx.getStorageSync(SYSTEM_INFO);
     this.windowHeight = systemInfo.windowHeight;
     this.$apply();
   }
-
-  onShow() {
-    this.getRootCateTopLevel();
-  }
-
+  //显示
+  onShow() {}
+  //计算属性
   computed = {};
+  //方法
   methods = {
     goIndex() {
       this.currentTab = 2;
     },
+    register() {
+      this.currentTab = 4;
+    },
+    bind() {
+      this.currentTab = 5;
+    },
+    submit() {
+      this.currentTab = 6;
+    },
     chooseType(type) {
       this.model.carType = type;
       this.currentTab = 3;
-    },
-    changeCate(e) {
-      console.log("changecate....");
-      let code = e.currentTarget.dataset.code;
-      this.getChildCate(code);
-      wepy.setStorageSync(SEL_CLASS_CODE, code);
-      //设置一级分类的选中状态
-      for (var i = 0; i < this.rootcateList.length; i++) {
-        var rootCate = this.rootcateList[i];
-        rootCate.active = false;
-        if (rootCate.code == code) {
-          rootCate.active = true;
-        }
-      }
     },
     onShareAppMessage: function(res) {
       if (res.from === "button") {
@@ -166,6 +133,7 @@ export default class Classify extends wepy.page {
       };
     }
   };
+  //事件
   events = {};
 }
 </script>
@@ -200,6 +168,7 @@ export default class Classify extends wepy.page {
     height: 150rpx;
   }
 }
+
 .empty_cart {
   margin-top: 100rpx;
   .shop_btn {
