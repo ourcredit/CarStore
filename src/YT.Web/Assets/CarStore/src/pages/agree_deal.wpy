@@ -1,0 +1,92 @@
+<template>
+  <view class="container">
+    <view class="agree_deal">
+      <view class="title">XXXX协议</view>
+      <view class="agreement">
+        <view class="item">
+            中国－拉美和加勒比国家共同体论坛第二届部长级会议２２日在智利圣地亚哥举行。国家主席习近平致贺信，表示中国人民愿同拉美和加勒比各国人民携手并进，为推动构建人类命运共同体作出更大贡献。
+            
+            　　拉美和加勒比国家与会人士及专家学者一致认为，习主席贺信不仅表明中国对拉美和加勒比国家重视，更为中拉合作未来指明方向，令人振奋。三年来，中拉论坛为双方找到许多利益契合点，取得丰硕合作成果，为构建中拉命运共同体提供了有力支撑。
+            
+            　　联合国拉丁美洲和加勒比经济委员会执行秘书阿莉西亚·巴尔塞纳表示，习主席贺信关于中拉携手推动构建人类命运共同体的内容令人印象深刻。“召开中拉论坛部长级会议，就是在推动构建人类命运共同体，为了创造一个更加和平、可持续发展的世界。”
+            
+            　　厄瓜多尔国家高等研究院中国问题研究中心主任米尔顿·雷耶斯认为，习主席贺信展现了中国同世界各国建设全方位合作关系的愿望。“中国在拉美地区秉持的开放态度给双方带来互利共赢的机遇。我们生活在一个多元的世界，各国人民应为了共建人类命运共同体而和谐共存。”
+            
+            　　委内瑞拉新兴经济研究中心研究院、委内瑞拉卡拉沃沃大学历史学教授理查德·德尔加罗说，习主席贺信重申中拉携手共同推动构建人类命运共同体的美好愿望，“这让我们看到中国领导人的全球视野，也显示中国不断深化与拉美地区国家互利合作的决心。”
+            
+            　　墨西哥普埃布拉功勋自治大学中国问题专家拉克尔·莱昂·德拉罗萨说，习主席贺信提到各国相互联系和依存日益加深，人类面临许多共同挑战。“在构建人类命运共同体理念指导下，中拉论坛就是一个为各国寻找合作契机、共同应对全球挑战的平台。”
+            
+            　　巴拿马前驻美国大使埃洛伊·阿尔法罗非常同意习主席在贺信中表达的中拉论坛已成为中拉整体合作主渠道的观点。他认为，中国不是和某一个国家合作，而是在推动构建中拉命运共同体，这符合整个地区利益。
+            
+            　　巴西中国问题研究所所长罗尼·林斯表示，习主席贺信进一步确认了中国与拉美和加勒比国家不断密切的关系，为双方关系未来发展指明了方向。近年来，中拉全面合作伙伴关系深入发展，越来越多拉美国家希望抓住机遇，深化与中国各领域对接。本届中拉论坛有望加速这一进程，推动拉美作为整体和中国合作步伐，构建中拉命运共同体。
+            
+            　　哥斯达黎加国立大学国际关系学院学者西尔维娅·阿雷东多认为，中拉论坛是拉美国家与中国进行合作交流的门户，双方合作日渐成熟并建立起信任关系。中国在与拉美国家合作时展现出了足够尊重，提供了充足机遇。
+            
+            　　秘鲁国际法协会主席、外交学院国际问题专家米格尔·罗德里格斯认为，习主席贺信强调要打造一条跨越太平洋合作之路，把中国和拉美更紧密地联通起来，这与拉美国家愿望相契合。拉美国家愿将发展规划同“一带一路”倡议对接，深入与中国各领域互利务实合作。
+        </view>
+      </view>
+    </view>
+    <view class="button-shop-ower">成为店主</view>
+    <view class="button-agree">点击成为店主按钮，即视为同意本协议</view>
+  </view>
+</template>
+<script>
+import wepy from "wepy";
+export default class Home extends wepy.page {
+  config = {
+    navigationBarTitleText: "车上商店"
+  };
+  components = {
+  };
+  data = {
+    
+  };
+  
+  onLoad() {
+    
+  }
+  methods = {
+  };
+}
+</script>
+<style lang="less">
+.agree_deal{
+  padding-top: 30rpx;
+  .title{
+    text-align: center;
+    font-size: 26rpx
+  }
+}
+.agreement{
+  .item{
+    padding: 15rpx;
+    margin: 15px;
+    border: 1px solid #ddd;
+    height: 900rpx;
+    overflow: auto;
+    font-size: 26rpx;
+  }
+}
+.button-shop-ower{
+  font-size: 28rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  text-align: center;
+  width: 330rpx;
+  -moz-border-radius: 8rpx;
+  /* Firefox */
+  -webkit-border-radius: 8rpx;
+  /* Safari 和 Chrome */
+  border-radius: 8rpx;
+  /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+  color: #000;
+  border: 1px solid #ddd;
+  margin:0 auto
+}
+.button-agree{
+  text-align: center;
+  font-size: 22rpx;
+  color: #000;
+  padding-top: 15rpx;
+}
+</style>

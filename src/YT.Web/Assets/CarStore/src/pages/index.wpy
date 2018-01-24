@@ -142,9 +142,10 @@ export default class Home extends wepy.page {
   }
   computed = {};
   methods = {
+    // 我要开店
     onOpenShop(){
       wepy.navigateTo({
-        url: "/pages/choose_driver"
+        url: "/pages/apply_process"
       })
     },
     goToAdvert(url) {

@@ -1,0 +1,115 @@
+<template>
+  <view class="container">
+    <view class="apply_process">
+      <view class="title">申请流程</view>
+      <view class="process">
+        <view class="item">
+          <text>1</text>阅读协议
+        </view>
+        <view class="itemImg">
+          <image src="../images/arrow.png"></image>
+        </view>
+        <view class="item">
+          <text>2</text>填写信息
+        </view>
+        <view class="itemImg">
+          <image src="../images/arrow.png"></image>
+        </view>
+        <view class="item">
+          <text>3</text>等待审核
+        </view>
+        <view class="itemImg">
+          <image src="../images/arrow.png"></image>
+        </view>
+        <view class="item">
+          <text>4</text>审核通过
+        </view>
+        <view class="itemImg">
+          <image src="../images/arrow.png"></image>
+        </view>
+        <view class="item">
+          <text>5</text>站点激活
+        </view>
+        <view class="itemImg">
+          <image src="../images/arrow.png"></image>
+        </view>
+        <view class="item">
+          <text>6</text>领取货品
+        </view>
+      </view>
+    </view>
+    <view class="button-next" @tap="toNext">下一步</view>
+  </view>
+</template>
+<script>
+import wepy from "wepy";
+export default class Home extends wepy.page {
+  config = {
+    navigationBarTitleText: "车上商店"
+  };
+  components = {
+  };
+  data = {
+    
+  };
+  
+  onLoad() {
+    
+  }
+  methods = {
+    toNext(){
+      wepy.navigateTo({
+        url: "/pages/agree_deal"
+      })
+    }
+  };
+}
+</script>
+<style lang="less">
+.apply_process{
+  padding-top: 30rpx;
+  .title{
+    text-align: center;
+    font-size: 26rpx
+  }
+}
+.process{
+  padding-top: 100rpx;
+  .item{
+    width: 640rpx;
+    text-align: center;
+    color: #000;
+    text{
+      font-weight: bold;
+      padding-right: 80rpx
+    }
+  }
+  .itemImg{
+    text-align: center;
+    image{
+      width: 26px;
+      height: 26px;
+    }
+  }
+}
+.button-next{
+  font-size: 28rpx;
+  height: 55rpx;
+  line-height: 55rpx;
+  text-align: center;
+  width: 300rpx;
+  -moz-border-radius: 8rpx;
+  margin: 390rpx auto 0;
+  /* Firefox */
+  -webkit-border-radius: 8rpx;
+  /* Safari 和 Chrome */
+  border-radius: 8rpx;
+  /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+  color: #000;
+  border: 1px solid #ddd;
+  /* position: fixed;
+  bottom: 15px;
+  z-index: 1001;
+  left: 32.33333% */
+}
+</style>

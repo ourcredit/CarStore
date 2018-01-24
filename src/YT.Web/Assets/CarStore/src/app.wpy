@@ -19,7 +19,9 @@ export default class extends wepy.app {
   config = {
     pages: [
       "pages/index",
-      "pages/choose_driver",
+      "pages/choose_driver",  //  出租车司机 or 网约车司机
+      "pages/apply_process",  //  审批流程
+      "pages/agree_deal",     //  同意协议
       "pages/home_detail",
       "pages/classify",
       "pages/store/openstore",

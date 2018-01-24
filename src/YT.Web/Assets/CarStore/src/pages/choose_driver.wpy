@@ -2,8 +2,8 @@
   <view class="container">
     <view class="choose_driver">
       <view>你是出租车司机还是网约车司机？</view>
-      <view class="button_taxi_driver button_driver">出租车</view>
-      <view class="button_driver">网约车</view>
+      <view class="button_taxi_driver button_driver" @tap="toApplyProcess">出租车</view>
+      <view class="button_driver" @tap="toApplyProcess">网约车</view>
     </view>
   </view>
 </template>
@@ -23,6 +23,12 @@ export default class Home extends wepy.page {
     
   }
   methods = {
+    // 进入申请流程
+    toApplyProcess(){
+      wepy.navigateTo({
+        url: "/pages/apply_process"
+      })
+    }
   };
 }
 </script>
