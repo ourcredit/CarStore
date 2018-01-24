@@ -18,6 +18,14 @@ namespace YT.Models
     public class Car : CreationAuditedEntity, ISoftDelete
     {
         /// <summary>
+        /// 唯一指定key
+        /// </summary>
+        public string OpenId { get; set; }
+        /// <summary>
+        /// 是否网约车
+        /// </summary>
+        public bool IsNet { get; set; }
+        /// <summary>
         /// 车牌号
         /// </summary>
         public string CarNum { get; set; }

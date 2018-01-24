@@ -76,6 +76,7 @@ namespace YT.EntityFramework
         /// 商品
         /// </summary>
         public  virtual  IDbSet<Product> Products { get; set; }
+        public virtual  IDbSet<Customer> Customers { get; set; }
         /// <summary>
         /// 订单下商品
         /// </summary>

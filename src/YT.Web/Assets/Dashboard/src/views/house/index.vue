@@ -1,11 +1,17 @@
 <template>
   <div class="animated fadeIn">
     <Row>
-      <milk-table ref="list" :layout="[5,17,2]" :columns="cols" :search-api="searchApi" :params="params">
+      <milk-table ref="list" :layout="[18,2,2]" :columns="cols" :search-api="searchApi" :params="params">
         <template slot="search">
           <Form ref="params" :model="params" inline :label-width="60">
-            <FormItem label="标题名称">
-              <Input v-model="params.filter" placeholder="标题名称"></Input>
+            <FormItem label="仓库名称">
+              <Input v-model="params.name" placeholder="仓库名称"></Input>
+            </FormItem>
+            <FormItem label="仓库编号">
+              <Input v-model="params.num" placeholder="仓库编号"></Input>
+            </FormItem>
+            <FormItem label="区域名">
+              <Input v-model="params.area" placeholder="区域名"></Input>
             </FormItem>
           </Form>
         </template>
@@ -15,51 +21,64 @@
       </milk-table>
     </Row>
     <!-- 添加和编辑窗口 -->
-    <Modal :width="800" :transfer="false" v-model="isshow" title="文档编辑" :mask-closable="false" @on-ok="save" @on-cancel="cancel">
-      <Row>
-        <Col span="8">文章标题</Col>
-        <Input v-model="model.title" placeholder="请输入标题" style="width: 300px"></Input>
-        <Col span="16"></Col>
-      </Row>
-      <Row>
-        <vue-editor id="editor" useCustomImageHandler @imageAdded="handleImageAdded" v-model="model.content"></vue-editor>
-      </Row>
+    <Modal :width="800" :transfer="false" v-model="isshow" title="仓库编辑" :mask-closable="false"
+     @on-ok="save" @on-cancel="cancel">
+      <Form :model="model" :label-width="80">
+        <FormItem label="仓库名称">
+            <Input v-model="model.houseName" placeholder="仓库名称"></Input>
+        </FormItem>
+          <FormItem label="仓库编号">
+            <Input v-model="model.houseNum" placeholder="仓库编号"></Input>
+        </FormItem>
+        <FormItem label="分类">
+            <Select v-model="model.areaId">
+                <Option value="beijing">New York</Option>
+                <Option value="shanghai">London</Option>
+                <Option value="shenzhen">Sydney</Option>
+            </Select>
+        </FormItem>
+        <FormItem label="描述">
+            <Input v-model="model.description" type="textarea"
+             :autosize="{minRows: 2,maxRows: 5}"
+              placeholder="描述"></Input>
+        </FormItem>
+     
+    </Form>
     </Modal>
   </div>
 </template>
 
 <script>
 import {
-  getAdsences,
-  getAdsenceEdit,
-  modifyAdsence,
-  deleteAdsence,
-  publicAdsences
-} from "api/adsence";
+  getHouses,
+  getHouseEdit,
+  getHouse,
+  modifyHouse,
+  deleteHouse,
+  deleteHouses,
+  exportHouse
+} from "api/house";
 import axios from "axios";
-import { VueEditor } from "vue2-editor";
 export default {
   name: "account",
   data() {
     return {
       cols: [
         {
-          title: "标题",
-          key: "title"
+          title: "仓库名称",
+          key: "wareName"
         },
         {
-          title: "状态",
-          key: "isActive",
-          render: (h, params) => {
-            return params.row.isActive ? "已发布" : "未发布";
-          }
+          title: "仓库编号",
+          key: "wareNum"
+        },
+        {
+          title: "区域",
+          key: "areaName"
         },
         {
           title: "创建时间",
-          key: "creationTime",
-          render: (h, params) => {
-            return this.$fmtTime(params.row.creationTime);
-          }
+          key: "creationTime"
         },
         {
           title: "操作",
@@ -107,23 +126,6 @@ export default {
                   "编辑"
                 )
               );
-              divs.push(
-                h(
-                  "Button",
-                  {
-                    props: {
-                      type: "primary",
-                      size: "small"
-                    },
-                    on: {
-                      click: () => {
-                        this.public(params.row);
-                      }
-                    }
-                  },
-                  "发布"
-                )
-              );
             }
             return h("div", divs);
           }
@@ -131,21 +133,23 @@ export default {
       ],
       model: {},
       isshow: false,
-      searchApi: getAdsences,
+      searchApi: getHouses,
       params: {
-        filter: ""
+        name: "",
+        num: "",
+        area: ""
       }
     };
   },
-  components: {
-    VueEditor
-  },
+  components: {},
   created() {},
   destroyed() {},
   methods: {
     save() {
       var table = this.$refs.list;
-      modifyAdsence({ adsenceEditDto: this.model }).then(c => {
+      modifyHouse({
+        adsenceEditDto: this.model
+      }).then(c => {
         if (c.data.success) {
           table.initData();
         }
@@ -158,7 +162,9 @@ export default {
     public(row) {
       publicAdsences;
       var table = this.$refs.list;
-      publicAdsences({ id: row.id }).then(c => {
+      publicAdsences({
+        id: row.id
+      }).then(c => {
         if (c.data.success) {
           table.initData();
         }
@@ -182,7 +188,7 @@ export default {
           const parms = {
             id: model.id
           };
-          deleteAdsence(parms).then(c => {
+          deleteHouse(parms).then(c => {
             if (c.data.success) {
               table.initData();
             }
@@ -212,7 +218,7 @@ export default {
         });
     },
     getInfo(id) {
-      getAdsenceEdit({
+      getHouse({
         id: id
       }).then(r => {
         if (r.data.success && r.data.result) {
@@ -224,8 +230,6 @@ export default {
 };
 </script>
 
-
 <style type="text/css" scoped>
 
 </style>
-

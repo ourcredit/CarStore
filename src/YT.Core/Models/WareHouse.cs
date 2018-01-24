@@ -28,6 +28,10 @@ namespace YT.Models
         [Required, MaxLength(200)]
         public string WareName { get; set; }
         /// <summary>
+        /// 描述
+        /// </summary>
+        public string Description { get; set; }
+        /// <summary>
         /// 区域层级
         /// </summary>
         public int AreaId { get; set; }
@@ -51,4 +55,22 @@ namespace YT.Models
         public int  WareHouseId { get; set; }
         public bool IsDeleted { get; set; }
     }
+    /// <summary>
+    /// 客户信息
+    /// </summary>
+    [Table("customer")]
+    public class Customer:CreationAuditedEntity,ISoftDelete
+    {
+        public string OpenId { get; set; }
+        /// <summary>
+        /// 昵称
+        /// </summary>
+        public string NickName { get; set; }
+      
+        /// <summary>
+        /// 软删除
+        /// </summary>
+        public bool IsDeleted { get; set; }
+    }
+  
 }

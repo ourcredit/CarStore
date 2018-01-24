@@ -186,10 +186,10 @@ namespace YT.Authorizations.PermissionDefault
         /// <summary>
         /// 商品
         /// </summary>
-        public const string Page_Product = "page.product";
+        public const string Page_Product = "page.production";
 
-        public const string Page_Product_Product = "page.product.product";
-        public const string Page_Product_Price = "page.product.price";
+        public const string Page_Product_Product = "page.production.product";
+        public const string Page_Product_Price = "page.production.price";
 
         /// <summary>
         /// 商品

@@ -18,7 +18,11 @@ namespace YT.Models
     /// </summary>
     public enum FileType
     {
-        a = 1, b = 2, c = 3, d = 4
+        身份证正面 = 1,
+        身份证背面 = 2,
+        监督卡 = 3,
+        车头照片 = 4,
+        网约车单月单量截图 = 5
     }
     /// <summary>
     /// 订单状态

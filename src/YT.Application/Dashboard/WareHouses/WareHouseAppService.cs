@@ -51,8 +51,13 @@ namespace YT.Dashboard.WareHouses
         public async Task<PagedResultDto<WareHouseListDto>> GetPagedWareHousesAsync(GetWareHouseInput input)
         {
             var area = await _areaRepository.FirstOrDefaultAsync(c => c.AreaName.Contains(input.Area));
-            var arr = await _areaRepository.GetAllListAsync(c => c.LevelCode.Contains(area.LevelCode));
-            var p = arr.Select(c => c.Id).ToList();
+            List<int> p=new List<int>();
+            if (area != null)
+            {
+                var arr = await _areaRepository.GetAllListAsync(c => c.LevelCode.Contains(area.LevelCode));
+                 p = arr.Select(c => c.Id).ToList();
+            }
+         
             var query = WareHouseRepositoryAsNoTrack;
             query = query.WhereIf(!input.Name.IsNullOrWhiteSpace(), c => c.WareName.Contains(input.Name))
                 .WhereIf(!input.Num.IsNullOrWhiteSpace(), c => c.WareNum.Contains(input.Num))

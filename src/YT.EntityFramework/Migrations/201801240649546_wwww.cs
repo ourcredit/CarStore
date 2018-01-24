@@ -5,7 +5,7 @@ namespace YT.Migrations
     using System.Data.Entity.Infrastructure.Annotations;
     using System.Data.Entity.Migrations;
     
-    public partial class wwwww : DbMigration
+    public partial class wwww : DbMigration
     {
         public override void Up()
         {
@@ -123,6 +123,8 @@ namespace YT.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        OpenId = c.String(unicode: false),
+                        IsNet = c.Boolean(nullable: false),
                         CarNum = c.String(unicode: false),
                         Mobile = c.String(unicode: false),
                         AreaId = c.Int(nullable: false),
@@ -192,6 +194,7 @@ namespace YT.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         WareNum = c.String(nullable: false, maxLength: 200, storeType: "nvarchar"),
                         WareName = c.String(nullable: false, maxLength: 200, storeType: "nvarchar"),
+                        Description = c.String(unicode: false),
                         AreaId = c.Int(nullable: false),
                         IsDeleted = c.Boolean(nullable: false),
                         CreationTime = c.DateTime(nullable: false, precision: 0),
@@ -221,6 +224,23 @@ namespace YT.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.carorder", t => t.OrderId, cascadeDelete: true)
                 .Index(t => t.OrderId);
+            
+            CreateTable(
+                "dbo.customer",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        OpenId = c.String(unicode: false),
+                        NickName = c.String(unicode: false),
+                        IsDeleted = c.Boolean(nullable: false),
+                        CreationTime = c.DateTime(nullable: false, precision: 0),
+                        CreatorUserId = c.Long(),
+                    },
+                annotations: new Dictionary<string, object>
+                {
+                    { "DynamicFilter_Customer_SoftDelete", "EntityFramework.DynamicFilters.DynamicFilterDefinition" },
+                })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.AbpFeatures",
@@ -1013,6 +1033,11 @@ namespace YT.Migrations
                 removedAnnotations: new Dictionary<string, object>
                 {
                     { "DynamicFilter_TenantFeatureSetting_MustHaveTenant", "EntityFramework.DynamicFilters.DynamicFilterDefinition" },
+                });
+            DropTable("dbo.customer",
+                removedAnnotations: new Dictionary<string, object>
+                {
+                    { "DynamicFilter_Customer_SoftDelete", "EntityFramework.DynamicFilters.DynamicFilterDefinition" },
                 });
             DropTable("dbo.orderproduct");
             DropTable("dbo.warehouse",

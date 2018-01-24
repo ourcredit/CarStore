@@ -33,6 +33,10 @@ namespace YT.Dashboard.WareHouses.Dtos
         [DisplayName("区域对象")]
         public      string AreaName { get; set; }
         /// <summary>
+        /// 描述
+        /// </summary>
+        public string Description { get; set; }
+        /// <summary>
         /// 创建时间
         /// </summary>
         [DisplayName("创建时间")]

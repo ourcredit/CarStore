@@ -18,6 +18,10 @@ namespace YT.Dashboard.Cars.Dtos
         [DisplayName("车牌号")]
         public string CarNum { get; set; }
         /// <summary>
+        /// 唯一指定key
+        /// </summary>
+        public string OpenId { get; set; }
+        /// <summary>
         /// 司机手机
         /// </summary>
         [DisplayName("司机手机")]

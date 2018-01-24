@@ -38,20 +38,26 @@ export const asyncRouterMap = [{
         name: '首页',
         component: Full,
         children: [{
-                path: '/dashboard',
-                name: '介绍',
+                path: '/house',
+                name: '仓库管理',
                 icon: 'speedometer',
-                component: r => require(['views/Dashboard'], r)
+                component: r => require(['views/house/index'], r)
             },
             {
-                path: '/public',
-                name: '公告管理',
+                path: '/houseproduct',
+                name: '仓库补货',
                 icon: 'speedometer',
-                component: r => require(['views/adsence/Index'], r)
+                component: r => require(['views/house/geration'], r)
+            },
+            {
+                path: '/carorder',
+                name: '车辆订单',
+                icon: 'speedometer',
+                component: r => require(['views/house/carorder'], r)
             },
             {
                 path: '',
-                name: '采购管理',
+                name: '车辆管理',
                 icon: 'person-stalker',
                 component: {
                     render(c) {
@@ -59,52 +65,47 @@ export const asyncRouterMap = [{
                     }
                 },
                 children: [{
-                        path: '/products',
+                        path: '/car',
+                        name: '车辆审核',
+                        icon: 'person',
+                        hidden: false,
+                        component: r => require(['views/cars/car'], r)
+                    },
+                    {
+                        path: '/generation',
+                        name: '提现管理',
+                        icon: 'person-add',
+                        component: r => require(['views/cars/generation'], r)
+                    }
+                ]
+            },
+            {
+                path: '',
+                name: '商品管理',
+                icon: 'person-stalker',
+                component: {
+                    render(c) {
+                        return c('router-view');
+                    }
+                },
+                children: [{
+                        path: '/product',
                         name: '商品管理',
                         icon: 'person',
                         hidden: false,
-                        component: r => require(['views/procurement/index'], r)
+                        component: r => require(['views/products/product'], r)
                     },
                     {
-                        path: '/pricing',
-                        name: '商品定价',
+                        path: '/productprice',
+                        name: '提现管理',
                         icon: 'person-add',
-                        component: r => require(['views/procurement/pricing'], r)
-                    },
-                    {
-                        path: '/orders',
-                        name: '订单管理',
-                        icon: 'person-add',
-                        component: r => require(['views/procurement/order'], r)
-                    },
-                    {
-                        path: '/order',
-                        name: '订单详情',
-                        icon: 'person-add',
-                        component: r => require(['views/procurement/orderdetail'], r)
+                        component: r => require(['views/products/price'], r)
                     }
                 ]
             },
             {
-                path: '/customers',
-                name: '客户管理',
-                icon: 'card',
-                component: r => require(['views/customer/index'], r)
-            },
-            {
-                path: '/customerpricing',
-                name: '客户定价',
-                component: r => require(['views/customer/customerpricing'], r)
-            },
-            {
-                path: '/series',
-                name: '系列管理',
-                icon: 'person-stalker',
-                component: r => require(['views/series/index'], r)
-            },
-            {
                 path: '',
-                name: '财务管理',
+                name: '统计管理',
                 icon: 'person-stalker',
                 component: {
                     render(c) {
@@ -112,26 +113,40 @@ export const asyncRouterMap = [{
                     }
                 },
                 children: [{
-                        path: '/chargerecord',
-                        name: '充值记录',
+                        path: '/members',
+                        name: '会员信息',
                         icon: 'person',
                         hidden: false,
-                        component: r => require(['views/finance/record'], r)
+                        component: r => require(['views/staticial/members'], r)
                     },
                     {
-                        path: '/applyforcharge',
-                        name: '充值申请记录',
+                        path: '/payfor',
+                        name: '会员支付订单',
                         icon: 'person-add',
-                        component: r => require(['views/finance/apply'], r)
+                        component: r => require(['views/staticial/payfor'], r)
                     }, {
-                        path: '/cost',
-                        name: '消费记录',
+                        path: '/carreplease',
+                        name: '车辆补货记录',
                         icon: 'person-stalker',
-                        component: r => require(['views/finance/cost'], r)
+                        component: r => require(['views/staticial/carreplease'], r)
+                    }, {
+                        path: '/carsale',
+                        name: '车辆售卖记录',
+                        icon: 'person-stalker',
+                        component: r => require(['views/staticial/carsale'], r)
+                    }, {
+                        path: '/houseship',
+                        name: '仓库出货',
+                        icon: 'person-stalker',
+                        component: r => require(['views/staticial/houseship'], r)
+                    }, {
+                        path: '/shipstaticial',
+                        name: '仓库出货统计',
+                        icon: 'person-stalker',
+                        component: r => require(['views/staticial/shipstaticial'], r)
                     }
                 ]
             },
-
             {
                 path: '',
                 name: '权限管理',
@@ -152,6 +167,18 @@ export const asyncRouterMap = [{
                         name: '用户管理',
                         icon: 'person-add',
                         component: r => require(['views/manager/Account'], r)
+                    },
+                    {
+                        path: '/userareas',
+                        name: '用户区域管理',
+                        icon: 'person-add',
+                        component: r => require(['views/manager/userareas'], r)
+                    },
+                    {
+                        path: '/areas',
+                        name: '区域管理',
+                        icon: 'person-add',
+                        component: r => require(['views/manager/areas'], r)
                     }
                 ]
             }

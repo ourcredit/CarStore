@@ -12,13 +12,19 @@ namespace YT.Dashboard.Cars.Dtos
     [AutoMap(typeof(Car))]
     public class CarEditDto
     {
-
         /// <summary>
         ///   主键Id
         /// </summary>
         [DisplayName("主键Id")]
         public int? Id { get; set; }
-
+        /// <summary>
+        /// 是否网约车
+        /// </summary>
+        public bool IsNet { get; set; }
+        /// <summary>
+        /// 唯一指定key
+        /// </summary>
+        public string OpenId { get; set; }
         /// <summary>
         /// 车牌号
         /// </summary>

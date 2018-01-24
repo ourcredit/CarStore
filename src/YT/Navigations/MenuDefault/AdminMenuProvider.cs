@@ -40,8 +40,8 @@ namespace YT.Navigations.MenuDefault
                {
                    Childs = new List<MenuDefinition>()
                    {
-                       new MenuDefinition("商品管理","/product","",true,StaticPermissionsName.Page_Product_Product),
-                       new MenuDefinition("商品价格管理","/productprice","",true,StaticPermissionsName.Page_Product_Price),
+                       new MenuDefinition("商品","/product","",true,StaticPermissionsName.Page_Product_Product),
+                       new MenuDefinition("商品价格","/productprice","",true,StaticPermissionsName.Page_Product_Price),
                    }
                },
                new MenuDefinition("统计管理","","speedometer",true,StaticPermissionsName.Page_Staticial)
@@ -64,8 +64,8 @@ namespace YT.Navigations.MenuDefault
                     {
                         new MenuDefinition("用户管理","/users","",true,StaticPermissionsName.Page_System_User),
                         new MenuDefinition("角色管理","/roles","",true,StaticPermissionsName.Page_System_Role),
-                        new MenuDefinition("负责区域管理","/userareas","calendar",true,StaticPermissionsName.Page_System_UserArea),
-                        new MenuDefinition("分类管理","/areas","calendar",true,StaticPermissionsName.Page_System_Area),
+                        new MenuDefinition("负责区域管理","/userareas","",true,StaticPermissionsName.Page_System_UserArea),
+                        new MenuDefinition("分类管理","/areas","",true,StaticPermissionsName.Page_System_Area),
                     }
                 },
            };

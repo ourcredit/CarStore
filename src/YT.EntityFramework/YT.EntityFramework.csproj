@@ -153,9 +153,9 @@
     <Compile Include="EntityFramework\MilkDbContext.cs" />
     <Compile Include="EntityFramework\Repositories\YtRepositoryBase.cs" />
     <Compile Include="EntityFramework\AbpZeroDbMigrator.cs" />
-    <Compile Include="Migrations\201801220913122_wwwww.cs" />
-    <Compile Include="Migrations\201801220913122_wwwww.Designer.cs">
-      <DependentUpon>201801220913122_wwwww.cs</DependentUpon>
+    <Compile Include="Migrations\201801240649546_wwww.cs" />
+    <Compile Include="Migrations\201801240649546_wwww.Designer.cs">
+      <DependentUpon>201801240649546_wwww.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="YtDataModule.cs" />
@@ -177,8 +177,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201801220913122_wwwww.resx">
-      <DependentUpon>201801220913122_wwwww.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201801240649546_wwww.resx">
+      <DependentUpon>201801240649546_wwww.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

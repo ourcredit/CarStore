@@ -33,7 +33,10 @@ namespace YT.Dashboard.WareHouses.Dtos
         [Required]
         [MaxLength(200)]
         public string WareName { get; set; }
-
+        /// <summary>
+        /// 描述
+        /// </summary>
+        public string Description { get; set; }
         /// <summary>
         /// 区域层级
         /// </summary>
