@@ -142,7 +142,7 @@ export default {
         num: ""
       },
       upload: {
-        url: "http://192.168.0.202:22222/api/File/ImageUpload",
+        url: "https://dingding.leftins.com/api/File/ImageUpload",
         headers: {
           Authorization: "Bearer " + this.$store.getters.token
         }
