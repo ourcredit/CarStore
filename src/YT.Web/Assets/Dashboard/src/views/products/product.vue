@@ -1,46 +1,51 @@
 <template>
-  <div class="animated fadeIn">
-    <Row>
-      <milk-table ref="list" :layout="[18,2,2]" :columns="cols" :search-api="searchApi" :params="params">
-        <template slot="search">
-          <Form ref="params" :model="params" inline :label-width="60">
-            <FormItem label="商品名">
-              <Input v-model="params.name" placeholder="商品名"></Input>
-            </FormItem>
-            <FormItem label="商品编号">
-              <Input v-model="params.num" placeholder="商品编号"></Input>
-            </FormItem>
-          </Form>
-        </template>
-        <template slot="actions">
-          <Button @click="add" type="primary">添加</Button>
-        </template>
-      </milk-table>
-    </Row>
-    <!-- 添加和编辑窗口 -->
-    <Modal :loading="true" :width="800" :transfer="false" v-model="isshow" title="商品编辑" :mask-closable="false"
-     @on-ok="save" @on-cancel="cancel">
-      <Form inline :model="model" :label-width="80">
-        <FormItem label="商品名">
-            <Input v-model="model.productName" placeholder="商品名"></Input>
-        </FormItem>
-          <FormItem label="商品编号">
-            <Input v-model="model.productNum" placeholder="商品编号"></Input>
-        </FormItem>
-         <FormItem label="默认价格">
-            <Input v-model="model.price" placeholder="默认价格"></Input>
-        </FormItem>
-         <FormItem label="成本价格">
-            <Input v-model="model.cost" placeholder="成本价格"></Input>
-        </FormItem>
-         <FormItem label="描述">
-            <Input v-model="model.description" type="textarea"
-             :autosize="{minRows: 2,maxRows: 5}"
-              placeholder="描述"></Input>
-        </FormItem>
-    </Form>
-    </Modal>
-  </div>
+    <div class="animated fadeIn">
+        <Row>
+            <milk-table ref="list" :layout="[18,2,2]" :columns="cols" :search-api="searchApi" :params="params">
+                <template slot="search">
+                    <Form ref="params" :model="params" inline :label-width="60">
+                        <FormItem label="商品名">
+                            <Input v-model="params.name" placeholder="商品名"></Input>
+                        </FormItem>
+                        <FormItem label="商品编号">
+                            <Input v-model="params.num" placeholder="商品编号"></Input>
+                        </FormItem>
+                    </Form>
+                </template>
+                <template slot="actions">
+                    <Button @click="add" type="primary">添加</Button>
+                </template>
+            </milk-table>
+        </Row>
+        <!-- 添加和编辑窗口 -->
+        <Modal :loading="true" :width="800" :transfer="false" v-model="isshow" title="商品编辑" :mask-closable="false" @on-ok="save"
+            @on-cancel="cancel">
+            <Form inline :model="model" :label-width="80">
+                <Upload multiple type='drag' :on-error='error' :on-success='success' :headers='upload.headers' :action='upload.url'>
+                    <div style='padding: 20px 0'>
+                        <Icon type='ios-cloud-upload' size='52' style='color: #3399ff'></Icon>
+                        <p>点击或将文件拖拽到这里上传</p>
+                    </div>
+                </Upload>
+                <FormItem label="商品名">
+                    <Input v-model="model.productName" placeholder="商品名"></Input>
+                </FormItem>
+                <FormItem label="商品编号">
+                    <Input v-model="model.productNum" placeholder="商品编号"></Input>
+                </FormItem>
+
+                <FormItem label="默认价格">
+                    <InputNumber :min="1" v-model="model.price"></InputNumber>
+                </FormItem>
+                <FormItem label="成本价格">
+                    <InputNumber :min="1" v-model="model.cost"></InputNumber>
+                </FormItem>
+                <FormItem label="描述">
+                    <Input v-model="model.description" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="描述"></Input>
+                </FormItem>
+            </Form>
+        </Modal>
+    </div>
 </template>
 
 <script>
@@ -135,6 +140,12 @@ export default {
       params: {
         name: "",
         num: ""
+      },
+      upload: {
+        url: "http://192.168.0.202:22222/api/File/ImageUpload",
+        headers: {
+          Authorization: "Bearer " + this.$store.getters.token
+        }
       }
     };
   },
@@ -145,7 +156,7 @@ export default {
     save() {
       var table = this.$refs.list;
       modifyProduct({
-        wareProductEditDto: this.model
+        productEditDto: this.model
       }).then(c => {
         if (c.data.success) {
           this.isshow = false;
@@ -191,6 +202,16 @@ export default {
           this.model = r.data.result.product;
         }
       });
+    },
+    error(error, file, filelist) {
+      if (!file.success) {
+        this.$Message.error(file.error.message);
+      }
+    },
+    success(response, file, filelist) {
+      if (response.success) {
+        this.model.profileId = response.result[0].guid;
+      }
     }
   }
 };
