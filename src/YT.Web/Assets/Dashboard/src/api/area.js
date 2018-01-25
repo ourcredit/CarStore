@@ -13,7 +13,13 @@ export function getAreaPrice(data) {
         data
     });
 }
-
+export function updateAreaPrice(data) {
+    return fetch({
+        url: '/api/services/app/area/UpdateAreaPrices',
+        method: 'post',
+        data
+    });
+}
 export function getAllAreas() {
     return fetch({
         url: '/api/services/app/area/GetAllAreas',

@@ -12,24 +12,36 @@
       </milk-table>
     </Row>
     <!-- 添加和编辑窗口 -->
-    <Modal :width="800" :transfer="false" v-model="isshow" title="编辑价格" :mask-closable="false"
-     @on-ok="cancel" @on-cancel="cancel">
-        <table>
-          <thead>
-            <tr>
-              <th>商品名称</th>
-              <th>商品编号</th>
-              <th>成本价格</th>
-              <th>价格</th>
-            </tr>
-          </thead>
-        </table>
+    <Modal :width="800" :transfer="false" v-model="isshow" title="编辑价格" :mask-closable="false" @on-ok="save" @on-cancel="cancel">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>商品名称</th>
+            <th>商品编号</th>
+            <th>成本价格</th>
+            <th>价格</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item,index in list" :key="index">
+            <td>{{item.productName}}</td>
+            <td>{{item.productNum}}</td>
+            <td>
+              <InputNumber v-model="item.cost"></InputNumber>
+
+            </td>
+            <td>
+              <InputNumber v-model="item.price"></InputNumber>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </Modal>
   </div>
 </template>
 
 <script>
-import { getAreas, getAreaPrice } from "api/area";
+import { getAreas, getAreaPrice, updateAreaPrice } from "api/area";
 export default {
   name: "price",
   data() {
@@ -86,7 +98,8 @@ export default {
         filter: "",
         level: 25
       },
-      list: []
+      list: [],
+      current: null
     };
   },
   components: {},
@@ -94,10 +107,26 @@ export default {
   destroyed() {},
   methods: {
     editShow(row) {
+      this.current = row;
       this.isshow = true;
-      getAreaPrice({ id: row.id }).then(r => {
+      getAreaPrice({
+        id: row.id
+      }).then(r => {
         if (r.result) {
           this.list = r.result;
+        }
+      });
+    },
+    save() {
+      var table = this.$refs.list;
+      const params = {
+        areaId: this.current.id,
+        list: this.list
+      };
+      updateAreaPrice(params).then(r => {
+        if (r.success) {
+          this.isshow = false;
+          table.initData();
         }
       });
     },
@@ -109,5 +138,7 @@ export default {
 </script>
 
 <style type="text/css" scoped>
-
+.table {
+  width: 100%;
+}
 </style>

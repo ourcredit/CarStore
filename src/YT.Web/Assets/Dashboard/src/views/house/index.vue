@@ -213,27 +213,6 @@ export default {
         }
       });
     },
-    handleImageAdded(file, Editor, cursorLocation) {
-      const CLIENT_ID = "993793b1d8d3e2e";
-      var formData = new FormData();
-      formData.append("image", file);
-      axios({
-        url: "http://192.168.0.202:8888/api/file/imageupload",
-        method: "POST",
-        headers: {
-          Authorization: "Client-ID " + CLIENT_ID
-        },
-        data: formData
-      })
-        .then(result => {
-          result.result.forEach(element => {
-            Editor.insertEmbed(cursorLocation, "image", element.viewUrl);
-          });
-        })
-        .catch(err => {
-          this.$Message.error(err.message);
-        });
-    },
     getInfo(id) {
       getHouseEdit({
         id: id

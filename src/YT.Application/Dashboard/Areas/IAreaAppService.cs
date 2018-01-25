@@ -30,6 +30,12 @@ namespace YT.Dashboard.Areas
 		Task<AreaListDto> GetAreaByIdAsync(EntityDto<int> input);
 
         /// <summary>
+        /// 更新区域商品价格
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task UpdateAreaPrices(UpdateAreaPriceInput input);
+        /// <summary>
         /// 获取商品价格定义
         /// </summary>
         /// <param name="input"></param>

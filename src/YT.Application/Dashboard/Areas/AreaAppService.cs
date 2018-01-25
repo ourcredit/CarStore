@@ -89,19 +89,48 @@ namespace YT.Dashboard.Areas
             var prices = _areaPriceRepository.GetAll().Where(c => c.AreaId == input.Id);
 
             var temp = from c in await products.ToListAsync()
-                join d in await prices.ToListAsync()
-                    on c.Id equals d.ProductId into h
-                from hh in h.DefaultIfEmpty()
-                select new AreaProductDto()
-                {
-                    Id = (hh != null ? hh.Id :new int?()),
-                    ProductId = c.Id,
-                    ProductName = c.ProductName,
-                    ProductNum = c.ProductNum,
-                    Cost =hh!=null?hh.Cost: c.Cost,
-                    Price = hh != null ? hh.Price : c.Price 
-                };
+                       join d in await prices.ToListAsync()
+                           on c.Id equals d.ProductId into h
+                       from hh in h.DefaultIfEmpty()
+                       select new AreaProductDto()
+                       {
+                           Id = (hh != null ? hh.Id : new int?()),
+                           ProductId = c.Id,
+                           ProductName = c.ProductName,
+                           ProductNum = c.ProductNum,
+                           Cost = hh != null ? hh.Cost : c.Cost,
+                           Price = hh != null ? hh.Price : c.Price
+                       };
             return temp.ToList();
+        }
+        /// <summary>
+        /// 更新区域商品价格
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task UpdateAreaPrices(UpdateAreaPriceInput input)
+        {
+            var aps = await _areaPriceRepository.GetAllListAsync(c => c.AreaId == input.AreaId);
+            foreach (var dto in input.List)
+            {
+                if (dto.Id.HasValue)
+                {
+                    var temp = aps.First(c => c.Id == dto.Id.Value);
+                    if(temp.Cost==dto.Cost&&temp.Price==dto.Price)continue;
+                    temp.Cost = dto.Cost;
+                    temp.Price = dto.Price;
+                }
+                else
+                {
+                    await _areaPriceRepository.InsertAsync(new AreaPrice()
+                    {
+                        AreaId = input.AreaId,
+                        Cost = dto.Cost,
+                        Price = dto.Price,
+                        ProductId = dto.ProductId
+                    });
+                }
+            }
         }
 
         /// <summary>
