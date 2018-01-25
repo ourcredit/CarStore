@@ -99,7 +99,7 @@ export default class Home extends wepy.page {
   text-align: center;
   width: 300rpx;
   -moz-border-radius: 8rpx;
-  margin: 390rpx auto 0;
+  // margin: 390rpx auto 0;
   /* Firefox */
   -webkit-border-radius: 8rpx;
   /* Safari 和 Chrome */
@@ -107,9 +107,9 @@ export default class Home extends wepy.page {
   /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
   color: #000;
   border: 1px solid #ddd;
-  /* position: fixed;
+  position: fixed;
   bottom: 15px;
   z-index: 1001;
-  left: 32.33333% */
+  left: 32.33333%
 }
 </style>

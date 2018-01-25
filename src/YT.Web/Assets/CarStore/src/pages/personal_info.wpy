@@ -1,0 +1,150 @@
+<template>
+  <view class="personal_info">
+    <view class="personal_info_title">个人信息提交</view>
+    <view class="section">
+      <input placeholder="姓名" auto-focus/>
+    </view>
+    <view class="section">
+      <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+        <view class="picker">
+          当前地区：{{array[index]}}
+        </view>
+      </picker>
+    </view>
+    <view class="section">
+      <input placeholder="车牌号" auto-focus/>
+    </view>
+    <view class="section">
+      <input placeholder="所属公司" auto-focus/>
+    </view>
+    <view class="section_img section_top">
+      <view class="image_title">
+        身份证正面照
+        <view class="button_upload">上传</view>
+      </view>
+      <view class="image"></view>
+    </view>
+    <view class="section_img">
+      <view class="image_title">
+        身份证反面照
+        <view class="button_upload">上传</view>
+      </view>
+      <view class="image"></view>
+    </view>
+    <view class="section_img">
+      <view class="image_title">
+        监督卡
+        <view class="button_upload">上传</view>
+      </view>
+      <view class="image"></view>
+    </view>
+    <view class="section_img">
+      <view class="image_title">
+        车头照片
+        <view class="button_upload">上传</view>
+      </view>
+      <view class="image"></view>
+    </view>
+    <view class="section_img">
+      <view class="image_title">
+        网约车单月单量截图
+        <view class="button_upload">上传</view>
+      </view>
+      <view class="image"></view>
+    </view>
+    <view class="button-next">提交审核</view>
+  </view>
+</template>
+<script>
+import wepy from "wepy";
+export default class Home extends wepy.page {
+  config = {
+    navigationBarTitleText: "车上商店"
+  };
+  components = {
+  };
+  data = {
+    array: ['美国', '中国', '巴西', '日本'],
+  };
+  
+  onLoad() {
+    
+  }
+  methods = {
+    toNext(){
+      wepy.navigateTo({
+        url: "/pages/agree_deal"
+      })
+    },
+    bindPickerChange: function(e) {
+      console.log('picker发送选择改变，携带值为', e.detail.value)
+      this.setData({
+        index: e.detail.value
+      })
+    }
+  };
+}
+</script>
+<style lang="less">
+.personal_info{
+  margin: 45rpx 90rpx 0;
+}
+
+.personal_info_title{
+  padding-top: 30rpx;
+  padding-bottom: 30rpx;
+  text-align: center
+}
+.section{
+  margin-top: 45rpx;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding:2px 5px;
+}
+.picker{
+  padding:2px 0px;
+}
+.section_img{
+  margin-top: 45rpx;
+  .image_title{
+    border-bottom: 1px solid #c5c5c5;
+    position: relative;
+    padding-bottom:10rpx;
+    .button_upload{
+      position: absolute;
+      right: 0;
+      bottom: 8rpx;
+      width: 150rpx;
+      height: 36rpx;
+      text-align: center;
+      line-height: 36rpx;
+      border: 1px solid #c5c5c5;
+      border-radius: 4px
+    }
+  }
+  .image{
+    width: 100%;
+    height: 400rpx;
+    background: #e5e5e5;
+    margin-top: 22rpx;
+  }
+}
+.section_top{
+  margin-top: 100rpx;
+}
+.button-next{
+  font-size: 28rpx;
+  height: 55rpx;
+  line-height: 55rpx;
+  text-align: center;
+  -moz-border-radius: 8rpx;
+  /* Firefox */
+  -webkit-border-radius: 8rpx;
+  /* Safari 和 Chrome */
+  border-radius: 8rpx;
+  /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+  color: #000;
+  border: 1px solid #c5c5c5;
+  margin: 40rpx 0
+}
+</style>

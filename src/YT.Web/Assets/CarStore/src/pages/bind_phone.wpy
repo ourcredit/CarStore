@@ -1,0 +1,81 @@
+<template>
+  <view class="container">
+    <view class="bind_phone_title">
+        绑定手机
+    </view>
+    <view class="section">
+      <input placeholder-class="phcolor" placeholder="手机号码" auto-focus/>
+    </view>
+    <view class="section">
+      <input placeholder-class="phcolor" placeholder="验证码" auto-focus/>
+      <view class="button_get_code" @tap="toNext">获取验证码</view>
+    </view>
+    <view class="button_bind" @tap="toBind">绑定</view>
+  </view>
+</template>
+<script>
+import wepy from "wepy";
+export default class Home extends wepy.page {
+  config = {
+    navigationBarTitleText: "车上商店"
+  };
+  components = {
+  };
+  data = {
+    
+  };
+  
+  onLoad() {
+    
+  }
+  methods = {
+    toBind(){
+      wepy.navigateTo({
+        url: "/pages/personal_info"
+      })
+    }
+  };
+}
+</script>
+<style lang="less">
+.bind_phone_title{
+  text-align: center;
+  padding-top: 60rpx;
+}
+.section{
+  margin: 90rpx;
+  border-bottom:1px solid #ddd;
+  position: relative;
+  .button_get_code{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 200rpx;
+    height: 40rpx;
+    text-align: center;
+    line-height: 40rpx;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    color: #000
+  }
+  .phcolor{
+    color: #000
+  }
+}
+.button_bind{
+  font-size: 28rpx;
+  height: 55rpx;
+  line-height: 55rpx;
+  text-align: center;
+  width: 300rpx;
+  -moz-border-radius: 8rpx;
+  margin: 160rpx auto 0;
+  /* Firefox */
+  -webkit-border-radius: 8rpx;
+  /* Safari 和 Chrome */
+  border-radius: 8rpx;
+  /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+  color: #000;
+  border: 1px solid #ddd;
+}
+</style>

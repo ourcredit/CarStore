@@ -22,6 +22,8 @@ export default class extends wepy.app {
       "pages/choose_driver",  //  出租车司机 or 网约车司机
       "pages/apply_process",  //  审批流程
       "pages/agree_deal",     //  同意协议
+      "pages/bind_phone",     //  绑定手机
+      "pages/personal_info",  //  个人信息提交
       "pages/home_detail",
       "pages/classify",
       "pages/store/openstore",

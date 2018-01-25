@@ -26,7 +26,7 @@
         </view>
       </view>
     </view>
-    <view class="button-shop-ower">成为店主</view>
+    <view class="button-shop-ower" @tap="onNext">成为店主</view>
     <view class="button-agree">点击成为店主按钮，即视为同意本协议</view>
   </view>
 </template>
@@ -46,6 +46,12 @@ export default class Home extends wepy.page {
     
   }
   methods = {
+    // 下一步 绑定手机号
+    onNext(){
+      wepy.navigateTo({
+        url: "/pages/bind_phone"
+      })
+    }
   };
 }
 </script>
