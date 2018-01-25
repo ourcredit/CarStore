@@ -158,7 +158,7 @@ export default {
       modifyProduct({
         productEditDto: this.model
       }).then(c => {
-        if (c.data.success) {
+        if (c.success) {
           this.isshow = false;
           table.initData();
         }
@@ -187,7 +187,7 @@ export default {
             id: model.id
           };
           deleteProduct(parms).then(c => {
-            if (c.data.success) {
+            if (c.success) {
               table.initData();
             }
           });
@@ -198,8 +198,8 @@ export default {
       getProductEdit({
         id: id
       }).then(r => {
-        if (r.data.success && r.data.result) {
-          this.model = r.data.result.product;
+        if (r.success && r.result) {
+          this.model = r.result.product;
         }
       });
     },

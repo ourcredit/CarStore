@@ -159,7 +159,7 @@ export default {
         onOk: () => {
           const parms = { id: model.id };
           deleteUser(parms).then(c => {
-            if (c.data.success) {
+            if (c.success) {
               table.initData();
             }
           });
@@ -186,8 +186,8 @@ export default {
     },
     initRoles() {
       getRoles().then(c => {
-        if (c.data.success) {
-          this.roles = c.data.result.items;
+        if (c.success) {
+          this.roles = c.result.items;
         }
       });
     }

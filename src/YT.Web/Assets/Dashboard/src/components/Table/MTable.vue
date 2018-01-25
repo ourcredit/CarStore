@@ -107,7 +107,7 @@ export default {
       params.maxResultCount = this.pageModel.maxResultCount;
       this.items = [];
       this.searchApi(params).then(response => {
-        var result = response.data;
+        var result = response;
         this.items = (result && result.result && result.result.items) || [];
         this.total = (result && result.result && result.result.totalCount) || 0;
       });

@@ -146,7 +146,7 @@ export default {
     save() {
       var table = this.$refs.list;
       modifyAdsence({ adsenceEditDto: this.model }).then(c => {
-        if (c.data.success) {
+        if (c.success) {
           table.initData();
         }
       });
@@ -159,7 +159,7 @@ export default {
       publicAdsences;
       var table = this.$refs.list;
       publicAdsences({ id: row.id }).then(c => {
-        if (c.data.success) {
+        if (c.success) {
           table.initData();
         }
       });
@@ -183,7 +183,7 @@ export default {
             id: model.id
           };
           deleteAdsence(parms).then(c => {
-            if (c.data.success) {
+            if (c.success) {
               table.initData();
             }
           });
@@ -203,20 +203,20 @@ export default {
         data: formData
       })
         .then(result => {
-          result.data.result.forEach(element => {
+          result.result.forEach(element => {
             Editor.insertEmbed(cursorLocation, "image", element.viewUrl);
           });
         })
         .catch(err => {
-          this.$Message.error(err.response.data.error.message);
+          this.$Message.error(err.message);
         });
     },
     getInfo(id) {
       getAdsenceEdit({
         id: id
       }).then(r => {
-        if (r.data.success && r.data.result) {
-          this.model = r.data.result.adsence;
+        if (r.success && r.result) {
+          this.model = r.result.adsence;
         }
       });
     }

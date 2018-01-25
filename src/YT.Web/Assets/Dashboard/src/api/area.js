@@ -6,6 +6,14 @@ export function getAreas(data) {
         data
     });
 }
+export function getAreaPrice(data) {
+    return fetch({
+        url: '/api/services/app/area/GetAreaProductsAsync',
+        method: 'post',
+        data
+    });
+}
+
 export function getAllAreas() {
     return fetch({
         url: '/api/services/app/area/GetAllAreas',

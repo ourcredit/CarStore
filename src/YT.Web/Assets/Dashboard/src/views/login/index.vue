@@ -34,35 +34,31 @@
 </template>
 
 <script>
-import { Authenticate } from 'api/login'
-import FooterTag from 'components/Footer'
+import { Authenticate } from "api/login";
+import FooterTag from "components/Footer";
 export default {
-  name: 'login',
+  name: "login",
   components: {
     FooterTag
   },
   data() {
     return {
-      logo: '../../../static/img/logo.png',
+      logo: "../../../static/img/logo.png",
       loginForm: {
-        usernameOrEmailAddress: 'admin',
-        password: '123456'
+        usernameOrEmailAddress: "admin",
+        password: "123456"
       },
       loginRules: {
-        usernameOrEmailAddress: [
-          { required: true, trigger: 'blur' }
-        ],
-        password: [
-          { required: true, trigger: 'blur' }
-        ]
+        usernameOrEmailAddress: [{ required: true, trigger: "blur" }],
+        password: [{ required: true, trigger: "blur" }]
       },
       loading: false,
       showDialog: false,
       showLogin: false
-    }
+    };
   },
   mounted() {
-    this.showLogin = true
+    this.showLogin = true;
   },
   methods: {
     // 登录
@@ -70,21 +66,24 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
-          this.$store.dispatch('LoginByEmail', this.loginForm).then(() => {
-            this.$Message.success('登录成功');
-            this.loading = false;
-            this.$router.push({ path: '/' });
-          }).catch(err => {
-            this.$Message.error(err.response.data.error.details);
-            this.loading = false;
-          });
+          this.$store
+            .dispatch("LoginByEmail", this.loginForm)
+            .then(() => {
+              this.$Message.success("登录成功");
+              this.loading = false;
+              this.$router.push({ path: "/" });
+            })
+            .catch(err => {
+              this.$Message.error(err.details);
+              this.loading = false;
+            });
         } else {
           return false;
         }
       });
     }
   }
-}
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
@@ -93,11 +92,11 @@ export default {
 }
 
 .g-center {
-  text-align: center
+  text-align: center;
 }
 
 .login-container {
-  background: url('./img/bg.jpg');
+  background: url("./img/bg.jpg");
   margin: 0px;
   overflow: hidden;
   height: calc(100% - 42px);
@@ -127,12 +126,12 @@ export default {
     position: absolute;
     left: 50%;
     margin-left: -219px;
-    background: url('../../../static/img/login01.png');
+    background: url("../../../static/img/login01.png");
     border-radius: 8px;
     button {
       margin-top: 27px;
       height: 40px;
-      background: #679feB;
+      background: #679feb;
       color: #fff;
       border: 1px solid #679feb;
       border-radius: 0;
@@ -146,17 +145,17 @@ export default {
       }
     }
     .g-right {
-      text-align: right
+      text-align: right;
     }
   }
 }
 
 .slide-fade-enter-active {
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 
 .slide-fade-leave-active {
-  transition: all .8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 
 .slide-fade-enter,

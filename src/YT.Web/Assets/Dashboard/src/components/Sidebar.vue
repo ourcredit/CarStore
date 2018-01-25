@@ -7,41 +7,41 @@
   </div>
 </template>
 <script>
-import SidebarItem from './SidebarItem';
-import { mapGetters, mapActions } from 'vuex';
-import { userMenus } from 'api/menu';
+import SidebarItem from "./SidebarItem";
+import { mapGetters, mapActions } from "vuex";
+import { userMenus } from "api/menu";
 export default {
-  name: 'sidebar',
+  name: "sidebar",
   data() {
     return {
       menus: null
-    }
+    };
   },
   created: function() {
     this.getUserMenus();
   },
   components: { SidebarItem },
-  computed: {
-  },
+  computed: {},
   methods: {
     handleClick(e) {
-      e.preventDefault()
-      e.target.parentElement.classList.toggle('open')
+      e.preventDefault();
+      e.target.parentElement.classList.toggle("open");
     },
     getUserMenus() {
-      userMenus().then(r=>{
-        if(r.data.success){
-           /*转换树结构*/
-                    this.menus = this.$converToTreedata(r.data.result.items,
-                        null,
-                        'parentId',null);
-         
+      userMenus().then(r => {
+        if (r.success) {
+          /*转换树结构*/
+          this.menus = this.$converToTreedata(
+            r.result.items,
+            null,
+            "parentId",
+            null
+          );
         }
       });
-
     }
   }
-}
+};
 </script>
 
 <style lang="css">

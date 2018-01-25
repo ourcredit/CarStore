@@ -1,10 +1,13 @@
-import { Authenticate, getInfo } from 'api/login';
+import {
+  Authenticate,
+  getInfo
+} from 'api/login';
 // import Cookies from 'js-cookie';
 
 const user = {
   state: {
     userName: '',
-    token: localStorage.getItem('Milk-Token'),
+    token: sessionStorage.getItem('Milk-Token'),
     name: '',
     avatar: '',
     emailAddress: ''
@@ -35,15 +38,16 @@ const user = {
   },
   actions: {
     // 邮箱登录
-    LoginByEmail({ commit }, userInfo) {
+    LoginByEmail({
+      commit
+    }, userInfo) {
       const email = userInfo.usernameOrEmailAddress.trim();
       return new Promise((resolve, reject) => {
         Authenticate(email, userInfo.password)
           .then(response => {
-            const data = response.data;
-            localStorage.setItem('Milk-Token', response.data.result);
+            sessionStorage.setItem('Milk-Token', response.result);
             //    Cookies.set('Admin-Token', response.data.token);
-            commit('SET_TOKEN', data.result);
+            commit('SET_TOKEN', response.result);
             commit('SET_USERNAME', email);
             resolve();
           })
@@ -53,11 +57,13 @@ const user = {
       });
     },
     // 获取用户信息
-    GetInfo({ commit }) {
+    GetInfo({
+      commit
+    }) {
       return new Promise((resolve, reject) => {
         getInfo()
           .then(response => {
-            const data = response.data.result;
+            const data = response.result;
             commit('SET_EMAIL', data.user.emailAddress);
             commit('SET_NAME', data.user.name);
             commit('SET_AVATAR', data.user.profilePictureId);
@@ -70,18 +76,22 @@ const user = {
       });
     },
     // 登出
-    LogOut({ commit }) {
+    LogOut({
+      commit
+    }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '');
-        localStorage.clear();
+        sessionStorage.clear();
         resolve();
       });
     },
     // 前端 登出
-    FedLogOut({ commit }) {
+    FedLogOut({
+      commit
+    }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '');
-        localStorage.clear();
+        sessionStorage.clear();
         resolve();
       });
     }

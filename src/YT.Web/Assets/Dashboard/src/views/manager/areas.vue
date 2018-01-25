@@ -45,7 +45,7 @@ export default {
   methods: {
     init() {
       getAllAreas().then(r => {
-        this.list = this.$genderTree(r.data.result, null, "parentId");
+        this.list = this.$genderTree(r.result, null, "parentId");
       });
     },
     renderContent(h, { root, node, data }) {
@@ -117,7 +117,7 @@ export default {
       modifyArea({
         areaEditDto: this.model
       }).then(r => {
-        if (r.data.success) {
+        if (r.success) {
           this.init();
           this.isshow = false;
           this.model = {};
@@ -137,7 +137,7 @@ export default {
             id: data.id
           };
           deleteArea(parms).then(c => {
-            if (c.data.success) {
+            if (c.success) {
               this.init();
             }
           });

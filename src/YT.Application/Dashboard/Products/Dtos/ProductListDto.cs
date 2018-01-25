@@ -17,6 +17,7 @@ namespace YT.Dashboard.Products.Dtos
         /// </summary>
         [DisplayName("商品名称")]
         public string ProductName { get; set; }
+     
         /// <summary>
         /// 商品编号
         /// </summary>
@@ -33,5 +34,6 @@ namespace YT.Dashboard.Products.Dtos
         /// </summary>
         [DisplayName("创建时间")]
         public DateTime CreationTime { get; set; }
+      
     }
 }

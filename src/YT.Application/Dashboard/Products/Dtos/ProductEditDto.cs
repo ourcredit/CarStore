@@ -27,6 +27,7 @@ namespace YT.Dashboard.Products.Dtos
         [Required]
         [MaxLength(200)]
         public string ProductName { get; set; }
+        public int ProductId { get; set; }
 
         /// <summary>
         /// 商品编号
@@ -54,6 +55,49 @@ namespace YT.Dashboard.Products.Dtos
         [DisplayName("")]
         public string ProfileUrl { get; set; }
 
+        /// <summary>
+        /// 价格
+        /// </summary>
+        [DisplayName("价格")]
+        public int Price { get; set; }
+
+        /// <summary>
+        /// 成本价格
+        /// </summary>
+        [DisplayName("成本价格")]
+        public int Cost { get; set; }
+
+    }
+
+
+    /// <summary>
+    /// 区域商品价格设置
+    /// </summary>
+    public class AreaProductDto
+    {
+        /// <summary>
+        ///   主键Id
+        /// </summary>
+        [DisplayName("主键Id")]
+        public int? Id { get; set; }
+        /// <summary>
+        /// 商品名称
+        /// </summary>
+        [DisplayName("商品名称")]
+        [Required]
+        [MaxLength(200)]
+        public string ProductName { get; set; }
+        /// <summary>
+        /// 商品id
+        /// </summary>
+        public int ProductId { get; set; }
+        /// <summary>
+        /// 商品编号
+        /// </summary>
+        [DisplayName("商品编号")]
+        [Required]
+        [MaxLength(200)]
+        public string ProductNum { get; set; }
         /// <summary>
         /// 价格
         /// </summary>

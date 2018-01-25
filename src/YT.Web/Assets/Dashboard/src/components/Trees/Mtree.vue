@@ -60,12 +60,7 @@ export default {
   methods: {
     init() {
       getAllAreas().then(r => {
-        this.list = this.$genderTree(
-          r.data.result,
-          null,
-          "parentId",
-          this.current
-        );
+        this.list = this.$genderTree(r.result, null, "parentId", this.current);
       });
     },
     renderContent(h, { root, node, data }) {
@@ -119,7 +114,7 @@ export default {
                 }),
                 on: {
                   click: () => {
-                    this.delete(root, node, data);
+                    this.remove(root, node, data);
                   }
                 }
               })
@@ -138,7 +133,7 @@ export default {
     },
     save() {
       modifyArea({ areaEditDto: this.model }).then(r => {
-        if (r.data.success) {
+        if (r.success) {
           this.init();
           this.isshow = false;
           this.model = {};
@@ -158,7 +153,7 @@ export default {
             id: data.id
           };
           deleteArea(parms).then(c => {
-            if (c.data.success) {
+            if (c.success) {
               this.init();
             }
           });

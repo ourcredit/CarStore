@@ -27,12 +27,12 @@ service.interceptors.request.use(
 );
 // respone拦截器
 service.interceptors.response.use(
-  response => response,
+  response => response.data,
   error => {
     if (error.response.status === 401) {
       store.dispatch('FedLogOut');
     }
-    return Promise.reject(error);
+    return Promise.reject(error.response.data.error);
   }
 );
 

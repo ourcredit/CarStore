@@ -158,7 +158,7 @@ export default {
       modifyHouse({
         wareHouseEditDto: this.model
       }).then(c => {
-        if (c.data.success) {
+        if (c.success) {
           this.isshow = false;
           table.initData();
         }
@@ -170,8 +170,8 @@ export default {
     add() {
       this.getInfo(null);
       getAllAreas().then(r => {
-        if (r.data.success) {
-          this.areas = this.$genderTree(r.data.result, null, "parentId");
+        if (r.success) {
+          this.areas = this.$genderTree(r.result, null, "parentId");
         }
       });
       this.isshow = true;
@@ -182,7 +182,7 @@ export default {
       publicAdsences({
         id: row.id
       }).then(c => {
-        if (c.data.success) {
+        if (c.success) {
           table.initData();
         }
       });
@@ -206,7 +206,7 @@ export default {
             id: model.id
           };
           deleteHouse(parms).then(c => {
-            if (c.data.success) {
+            if (c.success) {
               table.initData();
             }
           });
@@ -226,20 +226,20 @@ export default {
         data: formData
       })
         .then(result => {
-          result.data.result.forEach(element => {
+          result.result.forEach(element => {
             Editor.insertEmbed(cursorLocation, "image", element.viewUrl);
           });
         })
         .catch(err => {
-          this.$Message.error(err.response.data.error.message);
+          this.$Message.error(err.message);
         });
     },
     getInfo(id) {
       getHouseEdit({
         id: id
       }).then(r => {
-        if (r.data.success && r.data.result) {
-          this.model = r.data.result.wareHouse;
+        if (r.success && r.result) {
+          this.model = r.result.wareHouse;
         }
       });
     }

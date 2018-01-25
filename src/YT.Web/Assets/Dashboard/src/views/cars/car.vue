@@ -158,7 +158,7 @@ export default {
       modifyHouse({
         adsenceEditDto: this.model
       }).then(c => {
-        if (c.data.success) {
+        if (c.success) {
           table.initData();
         }
       });
@@ -173,7 +173,7 @@ export default {
       publicAdsences({
         id: row.id
       }).then(c => {
-        if (c.data.success) {
+        if (c.success) {
           table.initData();
         }
       });
@@ -197,7 +197,7 @@ export default {
             id: model.id
           };
           deleteHouse(parms).then(c => {
-            if (c.data.success) {
+            if (c.success) {
               table.initData();
             }
           });
@@ -217,20 +217,20 @@ export default {
         data: formData
       })
         .then(result => {
-          result.data.result.forEach(element => {
+          result.result.forEach(element => {
             Editor.insertEmbed(cursorLocation, "image", element.viewUrl);
           });
         })
         .catch(err => {
-          this.$Message.error(err.response.data.error.message);
+          this.$Message.error(err.message);
         });
     },
     getInfo(id) {
       getHouse({
         id: id
       }).then(r => {
-        if (r.data.success && r.data.result) {
-          this.model = r.data.result.adsence;
+        if (r.success && r.result) {
+          this.model = r.result.adsence;
         }
       });
     }

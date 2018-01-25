@@ -129,7 +129,7 @@ export default {
         onOk: () => {
           const parms = { id: model.id };
           deleteRole(parms).then(c => {
-            if (c.data.success) {
+            if (c.success) {
               table.initData();
             }
           });

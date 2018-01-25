@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using YT.Dashboard.Areas.Dtos;
+using YT.Dashboard.Products.Dtos;
 
 namespace YT.Dashboard.Areas
 {
@@ -28,6 +29,12 @@ namespace YT.Dashboard.Areas
         /// </summary>
 		Task<AreaListDto> GetAreaByIdAsync(EntityDto<int> input);
 
+        /// <summary>
+        /// 获取商品价格定义
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<AreaProductDto>> GetAreaProductsAsync(EntityDto input);
         /// <summary>
         /// 获取所有区域对象
         /// </summary>

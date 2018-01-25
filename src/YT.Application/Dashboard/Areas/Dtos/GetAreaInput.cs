@@ -9,12 +9,14 @@ namespace YT.Dashboard.Areas.Dtos
     public class GetAreaInput : PagedAndSortedInputDto, IShouldNormalize
     {
         //DOTO:在这里增加查询参数
-
 		/// <summary>
 	    /// 模糊查询参数
 		/// </summary>
-		public string FilterText { get; set; }
-
+		public string Filter { get; set; }
+        /// <summary>
+        /// 级别
+        /// </summary>
+        public int? Level { get; set; }
 		/// <summary>
 	    /// 用于排序的默认值
 		/// </summary>

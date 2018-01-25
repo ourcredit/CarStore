@@ -38,108 +38,110 @@
     </Tabs>
 </template>
 <script>
-import { saveRole, getRoleForEdit } from 'api/manage';
-import { allPermissions } from 'api/menu';
+import { saveRole, getRoleForEdit } from "api/manage";
+import { allPermissions } from "api/menu";
 export default {
-    name: 'modifyRole',
-    props: {
-        role: {
-            type: Number,
-            default() {
-                return null
-            }
-        }
-    },
-    data() {
-        return {
-            current: {
-                role: {
-                    id: this.role,
-                    displayName: null,
-                    isDefault: false,
-                    isActive: false,
-                    description: null
-                },
-                grantedPermissionNames: []
-            },
-            permissionTrees: [],
-            ruleValidate: {
-                displayName: [
-                    { required: true, message: '角色名不能为空', trigger: 'blur' }
-                ]
-            }
-        }
-    },
-    created() {
-        this.init();
-    },
-    mounted() {
-
-    },
-    methods: {
-        async init() {
-            getRoleForEdit({ id: this.current.role.id }).then(c => {
-                if (c.data.success) {
-                    this.current = c.data.result;
-                    this.initTree();
-                }
-            })
-        },
-        async initTree() {
-            allPermissions().then(c => {
-                if (c.data.success) {
-                    /*转换树结构*/
-                    this.permissionTrees = this.$converToTreedata(c.data.result.items,
-                        null,
-                        'parentId',
-                        this.current.grantedPermissionNames)
-                }
-            })
-        },
-        getCheckedNode() {
-            var checkedKeys = this.$refs.tree.getCheckedNodes()
-            if (!checkedKeys) {
-                return null;
-            }
-            let temp = [];
-            checkedKeys.forEach(c => {
-                temp.push(c.name);
-            })
-            /*级联获取父节点id*/
-            let getCheckedParentKeys = (treeData, checkedKeys, keyName) => {
-                var fdata = treeData.filter(node => {
-                    var hasKey = checkedKeys.findIndex(key => key == node[keyName]) >= 0;
-                    if (!hasKey) {
-                        let childChecked = node.children && getCheckedParentKeys(node.children, checkedKeys, keyName);
-                        if (childChecked) {
-                            checkedKeys.push(node[keyName])
-                        }
-                        return childChecked;
-                    }
-                    return hasKey;
-                })
-                return fdata && fdata.length;
-            }
-            getCheckedParentKeys(this.permissionTrees, temp, 'name')
-            return temp;
-        },
-        commit() {
-            this.$refs.role.validate((valid) => {
-                if (valid) {
-                    this.current.grantedPermissionNames = this.getCheckedNode();
-                    saveRole(this.current).then(r => {
-                        if (r.data.success) {
-                            this.$root.eventHub.$emit('role');
-                        } else {
-                           this.$root.eventHub.$emit('role');
-                        }
-                    });
-                } else {
-                    this.$Message.error('表单验证失败!');
-                   this.$root.eventHub.$emit('role');
-                }
-            })
-        }
+  name: "modifyRole",
+  props: {
+    role: {
+      type: Number,
+      default() {
+        return null;
+      }
     }
-}
+  },
+  data() {
+    return {
+      current: {
+        role: {
+          id: this.role,
+          displayName: null,
+          isDefault: false,
+          isActive: false,
+          description: null
+        },
+        grantedPermissionNames: []
+      },
+      permissionTrees: [],
+      ruleValidate: {
+        displayName: [
+          { required: true, message: "角色名不能为空", trigger: "blur" }
+        ]
+      }
+    };
+  },
+  created() {
+    this.init();
+  },
+  mounted() {},
+  methods: {
+    async init() {
+      getRoleForEdit({ id: this.current.role.id }).then(c => {
+        if (c.success) {
+          this.current = c.result;
+          this.initTree();
+        }
+      });
+    },
+    async initTree() {
+      allPermissions().then(c => {
+        if (c.success) {
+          /*转换树结构*/
+          this.permissionTrees = this.$converToTreedata(
+            c.result.items,
+            null,
+            "parentId",
+            this.current.grantedPermissionNames
+          );
+        }
+      });
+    },
+    getCheckedNode() {
+      var checkedKeys = this.$refs.tree.getCheckedNodes();
+      if (!checkedKeys) {
+        return null;
+      }
+      let temp = [];
+      checkedKeys.forEach(c => {
+        temp.push(c.name);
+      });
+      /*级联获取父节点id*/
+      let getCheckedParentKeys = (treeData, checkedKeys, keyName) => {
+        var fdata = treeData.filter(node => {
+          var hasKey = checkedKeys.findIndex(key => key == node[keyName]) >= 0;
+          if (!hasKey) {
+            let childChecked =
+              node.children &&
+              getCheckedParentKeys(node.children, checkedKeys, keyName);
+            if (childChecked) {
+              checkedKeys.push(node[keyName]);
+            }
+            return childChecked;
+          }
+          return hasKey;
+        });
+        return fdata && fdata.length;
+      };
+      getCheckedParentKeys(this.permissionTrees, temp, "name");
+      return temp;
+    },
+    commit() {
+      this.$refs.role.validate(valid => {
+        if (valid) {
+          this.current.grantedPermissionNames = this.getCheckedNode();
+          saveRole(this.current).then(r => {
+            if (r.success) {
+              this.$root.eventHub.$emit("role");
+            } else {
+              this.$root.eventHub.$emit("role");
+            }
+          });
+        } else {
+          this.$Message.error("表单验证失败!");
+          this.$root.eventHub.$emit("role");
+        }
+      });
+    }
+  }
+};
 </script>

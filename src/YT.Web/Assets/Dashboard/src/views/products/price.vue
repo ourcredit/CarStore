@@ -4,61 +4,32 @@
       <milk-table ref="list" :layout="[18,2,2]" :columns="cols" :search-api="searchApi" :params="params">
         <template slot="search">
           <Form ref="params" :model="params" inline :label-width="60">
-            <FormItem label="仓库名称">
-              <Input v-model="params.name" placeholder="仓库名称"></Input>
-            </FormItem>
-            <FormItem label="仓库编号">
-              <Input v-model="params.num" placeholder="仓库编号"></Input>
-            </FormItem>
             <FormItem label="区域名">
-              <Input v-model="params.area" placeholder="区域名"></Input>
+              <Input v-model="params.filter" placeholder="区域名"></Input>
             </FormItem>
           </Form>
-        </template>
-        <template slot="actions">
-          <Button @click="add" type="primary">添加</Button>
         </template>
       </milk-table>
     </Row>
     <!-- 添加和编辑窗口 -->
-    <Modal :width="800" :transfer="false" v-model="isshow" title="仓库编辑" :mask-closable="false"
-     @on-ok="save" @on-cancel="cancel">
-      <Form :model="model" :label-width="80">
-        <FormItem label="仓库名称">
-            <Input v-model="model.houseName" placeholder="仓库名称"></Input>
-        </FormItem>
-          <FormItem label="仓库编号">
-            <Input v-model="model.houseNum" placeholder="仓库编号"></Input>
-        </FormItem>
-        <FormItem label="分类">
-            <Select v-model="model.areaId">
-                <Option value="beijing">New York</Option>
-                <Option value="shanghai">London</Option>
-                <Option value="shenzhen">Sydney</Option>
-            </Select>
-        </FormItem>
-        <FormItem label="描述">
-            <Input v-model="model.description" type="textarea"
-             :autosize="{minRows: 2,maxRows: 5}"
-              placeholder="描述"></Input>
-        </FormItem>
-     
-    </Form>
+    <Modal :width="800" :transfer="false" v-model="isshow" title="编辑价格" :mask-closable="false"
+     @on-ok="cancel" @on-cancel="cancel">
+        <table>
+          <thead>
+            <tr>
+              <th>商品名称</th>
+              <th>商品编号</th>
+              <th>成本价格</th>
+              <th>价格</th>
+            </tr>
+          </thead>
+        </table>
     </Modal>
   </div>
 </template>
 
 <script>
-import {
-  getHouses,
-  getHouseEdit,
-  getHouse,
-  modifyHouse,
-  deleteHouse,
-  deleteHouses,
-  exportHouse
-} from "api/house";
-import axios from "axios";
+import { getAreas, getAreaPrice } from "api/area";
 export default {
   name: "price",
   data() {
@@ -66,15 +37,18 @@ export default {
       cols: [
         {
           title: "一级区域",
-          key: "wareName"
+          key: "parentName"
         },
         {
           title: "二级区域",
-          key: "wareNum"
+          key: "areaName"
         },
         {
           title: "状态",
-          key: "areaName"
+          key: "state",
+          render: (h, params) => {
+            return params.row.state ? "已设置" : "未设置";
+          }
         },
 
         {
@@ -95,112 +69,40 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.delete(params.row);
+                    this.editShow(params.row);
                   }
                 }
               },
               "编辑价格"
             );
             divs.push(del);
-
             return h("div", divs);
           }
         }
       ],
-      model: {},
       isshow: false,
-      searchApi: getHouses,
+      searchApi: getAreas,
       params: {
-        name: "",
-        num: "",
-        area: ""
-      }
+        filter: "",
+        level: 25
+      },
+      list: []
     };
   },
   components: {},
   created() {},
   destroyed() {},
   methods: {
-    save() {
-      var table = this.$refs.list;
-      modifyHouse({
-        adsenceEditDto: this.model
-      }).then(c => {
-        if (c.data.success) {
-          table.initData();
+    editShow(row) {
+      this.isshow = true;
+      getAreaPrice({ id: row.id }).then(r => {
+        if (r.result) {
+          this.list = r.result;
         }
       });
-    },
-    add() {
-      this.getInfo(null);
-      this.isshow = true;
-    },
-    public(row) {
-      publicAdsences;
-      var table = this.$refs.list;
-      publicAdsences({
-        id: row.id
-      }).then(c => {
-        if (c.data.success) {
-          table.initData();
-        }
-      });
-    },
-    edit(row) {
-      this.getInfo(row.id);
-      this.isshow = true;
     },
     cancel() {
       this.isshow = false;
-      this.model = {};
-    },
-    // 删除
-    delete(model) {
-      var table = this.$refs.list;
-      this.$Modal.confirm({
-        title: "删除提示",
-        content: "确定要删除么?",
-        onOk: () => {
-          const parms = {
-            id: model.id
-          };
-          deleteHouse(parms).then(c => {
-            if (c.data.success) {
-              table.initData();
-            }
-          });
-        }
-      });
-    },
-    handleImageAdded(file, Editor, cursorLocation) {
-      const CLIENT_ID = "993793b1d8d3e2e";
-      var formData = new FormData();
-      formData.append("image", file);
-      axios({
-        url: "http://192.168.0.202:8888/api/file/imageupload",
-        method: "POST",
-        headers: {
-          Authorization: "Client-ID " + CLIENT_ID
-        },
-        data: formData
-      })
-        .then(result => {
-          result.data.result.forEach(element => {
-            Editor.insertEmbed(cursorLocation, "image", element.viewUrl);
-          });
-        })
-        .catch(err => {
-          this.$Message.error(err.response.data.error.message);
-        });
-    },
-    getInfo(id) {
-      getHouse({
-        id: id
-      }).then(r => {
-        if (r.data.success && r.data.result) {
-          this.model = r.data.result.adsence;
-        }
-      });
     }
   }
 };

@@ -28,6 +28,10 @@ namespace YT.Dashboard.Areas.Dtos
         [DisplayName("上级对象")]
         public string ParentName { get; set; }
         /// <summary>
+        /// 是否指定价格
+        /// </summary>
+        public bool State { get; set; }
+        /// <summary>
         /// 创建时间
         /// </summary>
         [DisplayName("创建时间")]

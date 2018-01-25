@@ -8,8 +8,10 @@ using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
+using Abp.Extensions;
 using Abp.Linq.Extensions;
 using YT.Dashboard.Areas.Dtos;
+using YT.Dashboard.Products.Dtos;
 using YT.Models;
 
 
@@ -23,12 +25,19 @@ namespace YT.Dashboard.Areas
     public class AreaAppService : YtAppServiceBase, IAreaAppService
     {
         private readonly IRepository<Area, int> _areaRepository;
+        private readonly IRepository<AreaPrice, int> _areaPriceRepository;
+        private readonly IRepository<Product, int> _productRepository;
         /// <summary>
-        /// 构造方法
+        /// ctor
         /// </summary>
-        public AreaAppService(IRepository<Area, int> areaRepository)
+        /// <param name="areaRepository"></param>
+        /// <param name="areaPriceRepository"></param>
+        /// <param name="productRepository"></param>
+        public AreaAppService(IRepository<Area, int> areaRepository, IRepository<AreaPrice, int> areaPriceRepository, IRepository<Product, int> productRepository)
         {
             _areaRepository = areaRepository;
+            _areaPriceRepository = areaPriceRepository;
+            _productRepository = productRepository;
         }
 
 
@@ -46,21 +55,53 @@ namespace YT.Dashboard.Areas
         /// </summary>
         public async Task<PagedResultDto<AreaListDto>> GetPagedAreasAsync(GetAreaInput input)
         {
+            var aps = await _areaPriceRepository.GetAllListAsync();
 
             var query = AreaRepositoryAsNoTrack;
-
+            query = query.WhereIf(!input.Filter.IsNullOrWhiteSpace(), c => c.AreaName.Contains(input.Filter))
+                .WhereIf(input.Level.HasValue, c => c.LevelCode.Length == input.Level.Value);
             var areaCount = await query.CountAsync();
-
             var areas = await query
             .OrderBy(input.Sorting)
             .PageBy(input)
             .ToListAsync();
+            var result = new List<AreaListDto>();
+            foreach (var area in areas)
+            {
+                var model = area.MapTo<AreaListDto>();
+                model.State = aps.Count(c => c.AreaId == area.Id) > 0;
+                result.Add(model);
+            }
 
-            var areaListDtos = areas.MapTo<List<AreaListDto>>();
             return new PagedResultDto<AreaListDto>(
             areaCount,
-            areaListDtos
+            result
             );
+        }
+        /// <summary>
+        /// 获取商品价格定义
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<List<AreaProductDto>> GetAreaProductsAsync(EntityDto input)
+        {
+            var products = _productRepository.GetAll();
+            var prices = _areaPriceRepository.GetAll().Where(c => c.AreaId == input.Id);
+
+            var temp = from c in await products.ToListAsync()
+                join d in await prices.ToListAsync()
+                    on c.Id equals d.ProductId into h
+                from hh in h.DefaultIfEmpty()
+                select new AreaProductDto()
+                {
+                    Id = (hh != null ? hh.Id :new int?()),
+                    ProductId = c.Id,
+                    ProductName = c.ProductName,
+                    ProductNum = c.ProductNum,
+                    Cost =hh!=null?hh.Cost: c.Cost,
+                    Price = hh != null ? hh.Price : c.Price 
+                };
+            return temp.ToList();
         }
 
         /// <summary>
@@ -125,6 +166,7 @@ namespace YT.Dashboard.Areas
             }
         }
 
+
         /// <summary>
         /// 新增区域管理
         /// </summary>
@@ -137,10 +179,13 @@ namespace YT.Dashboard.Areas
                 var parennt = await _areaRepository.FirstOrDefaultAsync(input.ParentId.Value);
                 if (parennt != null)
                 {
-                    entity.LevelCode = $"{parennt.LevelCode}.{Guid.NewGuid().ToString("D").Split('-').Last()}" ;
+                    entity.LevelCode = $"{parennt.LevelCode}.{Guid.NewGuid().ToString("D").Split('-').Last()}";
                 }
             }
-            entity.LevelCode = $"{Guid.NewGuid().ToString("D").Split('-').Last()}";
+            else
+            {
+                entity.LevelCode = $"{Guid.NewGuid().ToString("D").Split('-').Last()}";
+            }
             entity = await _areaRepository.InsertAsync(entity);
             return entity.MapTo<AreaEditDto>();
         }

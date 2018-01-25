@@ -44,95 +44,90 @@
     </Tabs>
 </template>
 <script>
-import { modifyUser, getUserForEdit, getRoles } from 'api/manage';
-import { allPermissions } from 'api/menu';
+import { modifyUser, getUserForEdit, getRoles } from "api/manage";
+import { allPermissions } from "api/menu";
 export default {
-    nmae:'modifyAccount',
-    props: {
-        user: {
-            type: Number,
-            default() {
-                return null
-            }
-        }
-    },
-    data() {
-        return {
-            current: {
-                user: {
-                    id: this.user,
-                    name: '',
-                    userName: '',
-                    phoneNumber: '',
-                    password: '',
-                    isActive: true
-                },
-                assignedRoleNames: [],
-                setDefaultPassword: true
-            },
-            roles: [],
-            ruleValidate: {
-                name: [
-                    { required: true, message: '姓名不可为空', trigger: 'blur' }
-                ],
-                userName: [
-                    { required: true, message: '用户名不可为空', trigger: 'blur' }
-                ],
-                phoneNumber: [
-                    { required: false, message: '手机不合法', trigger: 'blur' }
-                ]
-
-            }
-        }
-    },
-    created() {
-        this.init();
-    },
-    mounted() {
-
-    },
-    methods: {
-        async init() {
-            getUserForEdit({ id: this.current.user.id }).then(c => {
-                if (c.data.success) {
-                    this.current.user = c.data.result.user;
-                    this.roles = c.data.result.roles;
-                    this.genderRoles();
-                }
-            })
-        },
-     
-        commit() {
-            this.$refs.user.validate((valid) => {
-                if (valid) {
-                    modifyUser(this.current).then((response) => {
-                        if (response.data.success) {
-                            this.$root.eventHub.$emit('account');
-                        } else {
-                            this.$root.eventHub.$emit('account');
-                        }
-                    }).catch(erroe => {
-                         this.$Message.error(erroe.error);
-                        this.$root.eventHub.$emit('account');
-                    });
-
-                } else {
-                    this.$Message.error('表单验证失败!');
-                    this.$root.eventHub.$emit('account');
-                }
-            })
-        },
-        genderRoles() {
-            this.current.assignedRoleNames = [];
-            if (this.roles) {
-                this.roles.forEach(c => {
-                    if (c.isAssigned) {
-                        this.current.assignedRoleNames.push(c.roleName);
-                    }
-                })
-            }
-        }
-
+  nmae: "modifyAccount",
+  props: {
+    user: {
+      type: Number,
+      default() {
+        return null;
+      }
     }
-}
+  },
+  data() {
+    return {
+      current: {
+        user: {
+          id: this.user,
+          name: "",
+          userName: "",
+          phoneNumber: "",
+          password: "",
+          isActive: true
+        },
+        assignedRoleNames: [],
+        setDefaultPassword: true
+      },
+      roles: [],
+      ruleValidate: {
+        name: [{ required: true, message: "姓名不可为空", trigger: "blur" }],
+        userName: [
+          { required: true, message: "用户名不可为空", trigger: "blur" }
+        ],
+        phoneNumber: [
+          { required: false, message: "手机不合法", trigger: "blur" }
+        ]
+      }
+    };
+  },
+  created() {
+    this.init();
+  },
+  mounted() {},
+  methods: {
+    async init() {
+      getUserForEdit({ id: this.current.user.id }).then(c => {
+        if (c.success) {
+          this.current.user = c.result.user;
+          this.roles = c.result.roles;
+          this.genderRoles();
+        }
+      });
+    },
+
+    commit() {
+      this.$refs.user.validate(valid => {
+        if (valid) {
+          modifyUser(this.current)
+            .then(response => {
+              if (response.success) {
+                this.$root.eventHub.$emit("account");
+              } else {
+                this.$root.eventHub.$emit("account");
+              }
+            })
+            .catch(erroe => {
+              this.$Message.error(erroe.error);
+              this.$root.eventHub.$emit("account");
+            });
+        } else {
+          this.$Message.error("表单验证失败!");
+          this.$root.eventHub.$emit("account");
+        }
+      });
+    },
+    genderRoles() {
+      this.current.assignedRoleNames = [];
+      if (this.roles) {
+        this.roles.forEach(c => {
+          if (c.isAssigned) {
+            this.current.assignedRoleNames.push(c.roleName);
+          }
+        });
+      }
+    }
+  }
+};
 </script>
