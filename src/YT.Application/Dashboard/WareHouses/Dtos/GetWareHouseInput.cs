@@ -35,4 +35,18 @@ namespace YT.Dashboard.WareHouses.Dtos
             }
         }
     }
+    /// <summary>
+    /// 修改负责人input
+    /// </summary>
+    public class ChangeHouseChargeUserInput
+    {
+        /// <summary>
+        /// 仓库id
+        /// </summary>
+        public int  HouseId { get; set; }
+        /// <summary>
+        /// 负责人id
+        /// </summary>
+        public long  UserId { get; set; }
+    }
 }

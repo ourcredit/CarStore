@@ -41,7 +41,8 @@ namespace YT
             mapper.CreateMap<Area, AreaListDto>()
                 .ForMember(c => c.ParentName, o => o.MapFrom(w => w.Parent.AreaName));
             mapper.CreateMap<WareHouse, WareHouseListDto>()
-                .ForMember(c => c.AreaName, o => o.MapFrom(w => w.Area.AreaName));
+                .ForMember(c => c.AreaName, o => o.MapFrom(w => w.Area.AreaName
+               ));
         }
     }
 }

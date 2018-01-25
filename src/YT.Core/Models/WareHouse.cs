@@ -40,21 +40,13 @@ namespace YT.Models
         /// </summary>
         public  virtual  Area Area { get; set; }
         public bool IsDeleted { get; set; }
-    }
-    /// <summary>
-    /// 人员 仓库关系表
-    /// </summary>
-    [Table("userwarehouse")]
-    public class UserWareHouse : CreationAuditedEntity, ISoftDelete
-    {
+        public long? ChargeUserId { get; set; }
         /// <summary>
-        ///人员id
+        /// 负责人
         /// </summary>
-        public long UserId { get; set; }
-        public virtual  User User { get; set; }
-        public int  WareHouseId { get; set; }
-        public bool IsDeleted { get; set; }
+        public virtual User ChargeUser { get; set; }
     }
+   
     /// <summary>
     /// 客户信息
     /// </summary>

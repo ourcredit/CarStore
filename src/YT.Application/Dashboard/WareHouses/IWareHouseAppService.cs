@@ -29,7 +29,11 @@ namespace YT.Dashboard.WareHouses
         /// </summary>
         Task<WareHouseListDto> GetWareHouseByIdAsync(EntityDto<int> input);
 
-
+        /// <summary>
+        /// 修改仓库负责人
+        /// </summary>
+        /// <returns></returns>
+        Task ChangeHouseChargeUserAsync(ChangeHouseChargeUserInput input);
 
         /// <summary>
         /// 新增或更改仓库管理

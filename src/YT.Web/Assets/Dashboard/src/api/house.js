@@ -42,6 +42,14 @@ export function deleteHouses(data) {
         data
     });
 }
+export function changehouseuser(data) {
+    return fetch({
+        url: '/api/services/app/wareHouse/ChangeHouseChargeUserAsync',
+        method: 'post',
+        data
+    });
+}
+
 export function exportHouse(data) {
     return fetch({
         url: '/api/services/app/wareHouse/GetWareHouseToExcel',

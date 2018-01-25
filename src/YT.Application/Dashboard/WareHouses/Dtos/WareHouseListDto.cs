@@ -41,5 +41,9 @@ namespace YT.Dashboard.WareHouses.Dtos
         /// </summary>
         [DisplayName("创建时间")]
         public      DateTime CreationTime { get; set; }
+        /// <summary>
+        /// 负责人
+        /// </summary>
+        public string ChargeUserName { get; set; }
     }
 }

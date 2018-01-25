@@ -89,10 +89,6 @@ namespace YT.EntityFramework
         /// Ïû·Ñ¶©µ¥
         /// </summary>
         public  virtual  IDbSet<StoreOrder> StoreOrders { get; set; }
-        /// <summary>
-        /// ²Ö¿â
-        /// </summary>
-        public  virtual  IDbSet<UserWareHouse> UserWareHouses { get; set; }
         #endregion
         public MilkDbContext()
             : base("Default")

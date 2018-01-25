@@ -76,7 +76,18 @@ namespace YT.Dashboard.WareHouses
             wareHouseListDtos
             );
         }
-
+        /// <summary>
+        /// 修改仓库负责人
+        /// </summary>
+        /// <returns></returns>
+        public async Task ChangeHouseChargeUserAsync(ChangeHouseChargeUserInput input)
+        {
+            var house = await _wareHouseRepository.FirstOrDefaultAsync(input.HouseId);
+            if (house != null)
+            {
+                house.ChargeUserId = input.UserId;
+            }
+        }
         /// <summary>
         /// 通过Id获取仓库管理信息进行编辑或修改 
         /// </summary>
