@@ -11,8 +11,10 @@ import 'iview/dist/styles/iview.css';
 import TreeView from 'vue-json-tree-view';
 import MilkTable from 'components/table/mtable';
 import TreeGrid from 'components/table/treegrid';
+import MTree from 'components/trees/mtree';
 Vue.use(iView);
 Vue.use(TreeView);
+Vue.component('m-tree', MTree);
 Vue.component('milk-table', MilkTable);
 Vue.component('tree-table', TreeGrid);
 /* 格式化日期*/
@@ -52,10 +54,13 @@ const converToTreedata = (data, parentId, pidField, grants) => {
     });
     return list;
 };
-const genderTree = (data, parentId, pidField) => {
+const genderTree = (data, parentId, pidField, current) => {
     const list = [];
     data.forEach(item => {
         if (item[pidField] === parentId) {
+            if (current) {
+                item.selected = item.id === current
+            }
             item.children = genderTree(data, item.id, pidField);
             item.title = item.areaName;
             item.expand = true;

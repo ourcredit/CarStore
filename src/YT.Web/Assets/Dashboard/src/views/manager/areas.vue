@@ -1,23 +1,20 @@
 <template>
-<Row>
-  <Col span="8">
+  <Row>
+    <!-- <Col span="8">
     <Tree :data="list" :render="renderContent"></Tree>
-  
-  </Col>
-   <!-- 添加和编辑窗口 -->
-    <Modal :width="400" :transfer="false" v-model="isshow" title="添加区域" :mask-closable="false"
-     @on-ok="save"
-     @on-cancel="cancel">
+    </Col>
+    <Modal :width="400" :transfer="false" v-model="isshow" title="添加区域" :mask-closable="false" @on-ok="save" @on-cancel="cancel">
       <Form :model="model" :label-width="80">
         <FormItem label="上级名称">
-          <Input  v-model="model.parentName" placeholder="上级名称"></Input>
+          <Input v-model="model.parentName" placeholder="上级名称"></Input>
         </FormItem>
         <FormItem label="区域名">
           <Input v-model="model.areaName" placeholder="区域名"></Input>
         </FormItem>
       </Form>
-    </Modal>
-</Row>
+    </Modal> -->
+    <m-tree :current="1"></m-tree>
+  </Row>
 
 </template>
 <script>
@@ -33,7 +30,9 @@ export default {
     return {
       list: [],
       isshow: false,
-      model: { parentName: "" },
+      model: {
+        parentName: ""
+      },
       buttonProps: {
         type: "ghost",
         size: "small"
@@ -115,7 +114,9 @@ export default {
       this.model.parentId = data.id;
     },
     save() {
-      modifyArea({ areaEditDto: this.model }).then(r => {
+      modifyArea({
+        areaEditDto: this.model
+      }).then(r => {
         if (r.data.success) {
           this.init();
           this.isshow = false;
